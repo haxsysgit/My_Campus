@@ -3188,7 +3188,8 @@
               "fill": "$text-secondary",
               "content": "ak1234@live.mdx.ac.uk",
               "fontFamily": "DM Sans",
-              "fontSize": 14
+              "fontSize": 14,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -3222,7 +3223,8 @@
               "fill": "$text-secondary",
               "content": "Control who can see your location on campus",
               "fontFamily": "DM Sans",
-              "fontSize": 13
+              "fontSize": 13,
+              "fontWeight": "normal"
             },
             {
               "type": "frame",
@@ -3283,7 +3285,8 @@
                           "fill": "$text-secondary",
                           "content": "Only building counts shown",
                           "fontFamily": "DM Sans",
-                          "fontSize": 12
+                          "fontSize": 12,
+                          "fontWeight": "normal"
                         }
                       ]
                     }
@@ -3351,7 +3354,8 @@
                           "fill": "$text-secondary",
                           "content": "Classmates can see your location",
                           "fontFamily": "DM Sans",
-                          "fontSize": 12
+                          "fontSize": 12,
+                          "fontWeight": "normal"
                         }
                       ]
                     },
@@ -3434,7 +3438,8 @@
                           "fill": "$text-secondary",
                           "content": "Friends can see your exact location",
                           "fontFamily": "DM Sans",
-                          "fontSize": 12
+                          "fontSize": 12,
+                          "fontWeight": "normal"
                         }
                       ]
                     }
@@ -4223,7 +4228,8 @@
                       "fill": "$text-secondary",
                       "content": "📍 Sheppard Library • 2 min away",
                       "fontFamily": "DM Sans",
-                      "fontSize": 12
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -4297,7 +4303,8 @@
                       "fill": "$text-secondary",
                       "content": "📍 Grove Building • 5 min away",
                       "fontFamily": "DM Sans",
-                      "fontSize": 12
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -4371,7 +4378,8 @@
                       "fill": "$text-secondary",
                       "content": "🚶 Walking to College Building",
                       "fontFamily": "DM Sans",
-                      "fontSize": 12
+                      "fontSize": 12,
+                      "fontWeight": "normal"
                     }
                   ]
                 },
@@ -4530,6 +4538,1134 @@
                   "fontFamily": "DM Sans",
                   "fontSize": 11,
                   "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "TWV0P",
+      "x": 0,
+      "y": 1000,
+      "name": "Desktop: Dashboard (Dark)",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "#0D1117",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "AZQmq",
+          "name": "Navbar",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "#161B22",
+          "stroke": {
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "#30363D"
+          },
+          "padding": [
+            0,
+            32
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "r3Dp5",
+              "name": "Logo Section",
+              "gap": 24,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "zan6x",
+                  "name": "Logo",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "#3B82F6",
+                  "cornerRadius": 8
+                },
+                {
+                  "type": "text",
+                  "id": "oA48L",
+                  "name": "appName",
+                  "fill": "#F0F6FC",
+                  "content": "MyCampus",
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Rg4Fv",
+              "name": "Nav Links",
+              "gap": 32,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "kHrH6",
+                  "name": "navDashboard",
+                  "fill": "#3B82F6",
+                  "content": "Dashboard",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "NI5fD",
+                  "name": "navNavigate",
+                  "fill": "#8B949E",
+                  "content": "Navigate",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "O0nnS",
+                  "name": "navClassPulse",
+                  "fill": "#8B949E",
+                  "content": "ClassPulse",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "xFhZV",
+                  "name": "navEmergency",
+                  "fill": "#8B949E",
+                  "content": "Emergency",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "b7zCq",
+              "name": "User Section",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ZH8T0",
+                  "name": "Avatar",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "#1F2937",
+                  "cornerRadius": 999,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "fLIUW",
+                      "name": "userInitials",
+                      "fill": "#3B82F6",
+                      "content": "AK",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "dey28",
+          "name": "Main Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "#0D1117",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": 32,
+          "children": [
+            {
+              "type": "text",
+              "id": "EfdZA",
+              "name": "greeting",
+              "fill": "#F0F6FC",
+              "content": "Good afternoon, Alex",
+              "fontFamily": "Inter",
+              "fontSize": 28,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "ugTkH",
+              "name": "subtitle",
+              "fill": "#8B949E",
+              "content": "Welcome back to MyCampus",
+              "fontFamily": "Inter",
+              "fontSize": 16
+            },
+            {
+              "type": "frame",
+              "id": "I7aJX",
+              "name": "Cards Row",
+              "width": "fill_container",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "5Dg9O",
+                  "name": "Navigator Card",
+                  "width": "fill_container",
+                  "fill": "#161B22",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#30363D"
+                  },
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 24,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "9Ygub",
+                      "name": "Icon",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "#1F3A5F",
+                      "cornerRadius": 12,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "CaEHC",
+                          "name": "card1IconText",
+                          "content": "🗺️",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "EiX0L",
+                      "name": "card1Title",
+                      "fill": "#F0F6FC",
+                      "content": "Campus Navigator",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "LKfbL",
+                      "name": "card1Desc",
+                      "fill": "#8B949E",
+                      "content": "Plan your route. Fastest or safest path between buildings.",
+                      "fontFamily": "Inter",
+                      "fontSize": 14
+                    },
+                    {
+                      "type": "text",
+                      "id": "6ETJL",
+                      "name": "card1Stat",
+                      "fill": "#3B82F6",
+                      "content": "8 buildings mapped",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "DMqED",
+                  "name": "ClassPulse Card",
+                  "width": "fill_container",
+                  "fill": "#161B22",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#30363D"
+                  },
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 24,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "QSlBw",
+                      "name": "Icon",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "#064E3B",
+                      "cornerRadius": 12,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "lf9wr",
+                          "name": "card2IconText",
+                          "content": "👥",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "qYUzu",
+                      "name": "card2Title",
+                      "fill": "#F0F6FC",
+                      "content": "ClassPulse",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "KPBar",
+                      "name": "card2Desc",
+                      "fill": "#8B949E",
+                      "content": "Check in to class. See who's already there. Live headcount.",
+                      "fontFamily": "Inter",
+                      "fontSize": 14
+                    },
+                    {
+                      "type": "text",
+                      "id": "bfC17",
+                      "name": "card2Stat",
+                      "fill": "#22C55E",
+                      "content": "24 students checked in",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fPLon",
+                  "name": "Safety Card",
+                  "width": "fill_container",
+                  "fill": "#161B22",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#30363D"
+                  },
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 24,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "z0RTL",
+                      "name": "Icon",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "#7F1D1D",
+                      "cornerRadius": 12,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "voSoN",
+                          "name": "card3IconText",
+                          "content": "🛡️",
+                          "fontFamily": "Inter",
+                          "fontSize": 24,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "bMMoY",
+                      "name": "card3Title",
+                      "fill": "#F0F6FC",
+                      "content": "Campus Safety",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "0zmUs",
+                      "name": "card3Desc",
+                      "fill": "#8B949E",
+                      "content": "Safe route planner. Emergency alerts. Panic button.",
+                      "fontFamily": "Inter",
+                      "fontSize": 14
+                    },
+                    {
+                      "type": "text",
+                      "id": "JWVpJ",
+                      "name": "card3Stat",
+                      "fill": "#22C55E",
+                      "content": "All clear · Campus normal",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "500"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "jIBDn",
+      "x": 1540,
+      "y": 1000,
+      "name": "Desktop: Navigate (Dark)",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "#0D1117",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "m6cF7",
+          "name": "Navbar",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "#161B22",
+          "stroke": {
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "#30363D"
+          },
+          "padding": [
+            0,
+            32
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "8eI9C",
+              "name": "Logo Section",
+              "gap": 24,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "4Ol7L",
+                  "name": "Logo",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "#3B82F6",
+                  "cornerRadius": 8
+                },
+                {
+                  "type": "text",
+                  "id": "xu65D",
+                  "name": "nav2LogoText",
+                  "fill": "#F0F6FC",
+                  "content": "MyCampus",
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "OekQw",
+              "name": "Nav Links",
+              "gap": 32,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "bFti4",
+                  "name": "nav2L1",
+                  "fill": "#8B949E",
+                  "content": "Dashboard",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "5UrT3",
+                  "name": "nav2L2",
+                  "fill": "#3B82F6",
+                  "content": "Navigate",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "p90kI",
+                  "name": "nav2L3",
+                  "fill": "#8B949E",
+                  "content": "ClassPulse",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "dMvA1",
+                  "name": "nav2L4",
+                  "fill": "#8B949E",
+                  "content": "Emergency",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "sWGH5",
+              "name": "User",
+              "width": 36,
+              "height": 36,
+              "fill": "#1F2937",
+              "cornerRadius": 999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RrWvj",
+                  "name": "nav2UserText",
+                  "fill": "#3B82F6",
+                  "content": "AK",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "iEQ2y",
+          "name": "Map Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "T1bqa",
+              "x": 0,
+              "y": 0,
+              "name": "Map Area",
+              "width": "fill_container(0)",
+              "height": "fill_container(0)",
+              "fill": "#1A2332",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yAh8I",
+                  "name": "mapLabel",
+                  "fill": "#8B949E",
+                  "content": "Middlesex University Campus",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "uqfPW",
+              "x": 0,
+              "y": 0,
+              "name": "Sidebar",
+              "width": 360,
+              "height": "fill_container(0)",
+              "fill": "#161B22",
+              "stroke": {
+                "thickness": {
+                  "right": 1
+                },
+                "fill": "#30363D"
+              },
+              "layout": "vertical",
+              "gap": 24,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "J42tk",
+                  "name": "sidebarTitle",
+                  "fill": "#F0F6FC",
+                  "content": "Route Planner",
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "frame",
+                  "id": "2EWFJ",
+                  "name": "From Input",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": "#21262D",
+                  "cornerRadius": 8,
+                  "padding": [
+                    0,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "v1DQs",
+                      "name": "fromText",
+                      "fill": "#F0F6FC",
+                      "content": "📍 Current Location",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "500"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "WiScX",
+                  "name": "To Input",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": "#21262D",
+                  "cornerRadius": 8,
+                  "padding": [
+                    0,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "8Fh0V",
+                      "name": "toText",
+                      "fill": "#8B949E",
+                      "content": "🎯 Select destination...",
+                      "fontFamily": "Inter",
+                      "fontSize": 14
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "7qrlA",
+                  "name": "Mode Toggle",
+                  "width": "fill_container",
+                  "height": 44,
+                  "fill": "#21262D",
+                  "cornerRadius": 22,
+                  "gap": 4,
+                  "padding": 4,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "n6xtR",
+                      "name": "Fastest",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "fill": "#3B82F6",
+                      "cornerRadius": 18,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "qvA7G",
+                          "name": "fastestText",
+                          "fill": "#FFFFFF",
+                          "content": "Fastest",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wUDt3",
+                      "name": "Safest",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "fill": "transparent",
+                      "cornerRadius": 18,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "mMdeG",
+                          "name": "safestText",
+                          "fill": "#8B949E",
+                          "content": "Safest",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ciony",
+      "x": 3080,
+      "y": 1000,
+      "name": "Desktop: ClassPulse (Dark)",
+      "clip": true,
+      "width": 1440,
+      "height": 900,
+      "fill": "#0D1117",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "pnC7Y",
+          "name": "Navbar",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "#161B22",
+          "stroke": {
+            "thickness": {
+              "bottom": 1
+            },
+            "fill": "#30363D"
+          },
+          "padding": [
+            0,
+            32
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "aGB0h",
+              "name": "Logo Section",
+              "gap": 24,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "3WGtg",
+                  "name": "Logo",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "#3B82F6",
+                  "cornerRadius": 8
+                },
+                {
+                  "type": "text",
+                  "id": "9dNiq",
+                  "name": "nav3LogoText",
+                  "fill": "#F0F6FC",
+                  "content": "MyCampus",
+                  "fontFamily": "Inter",
+                  "fontSize": 20,
+                  "fontWeight": "700"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "r0bBW",
+              "name": "Nav Links",
+              "gap": 32,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "V5YHz",
+                  "name": "nav3L1",
+                  "fill": "#8B949E",
+                  "content": "Dashboard",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "lw1tk",
+                  "name": "nav3L2",
+                  "fill": "#8B949E",
+                  "content": "Navigate",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "9p1W2",
+                  "name": "nav3L3",
+                  "fill": "#3B82F6",
+                  "content": "ClassPulse",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "bB9rf",
+                  "name": "nav3L4",
+                  "fill": "#8B949E",
+                  "content": "Emergency",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "0q1IS",
+              "name": "User",
+              "width": 36,
+              "height": 36,
+              "fill": "#1F2937",
+              "cornerRadius": 999,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RpPp1",
+                  "name": "nav3UserText",
+                  "fill": "#3B82F6",
+                  "content": "AK",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "vy3vX",
+          "name": "Content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "#0D1117",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            32,
+            200
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "3N2l6",
+              "name": "Header",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "F5JnJ",
+                  "name": "cpTitle",
+                  "fill": "#F0F6FC",
+                  "content": "ClassPulse",
+                  "fontFamily": "Inter",
+                  "fontSize": 28,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "PTmKY",
+                  "name": "cpSubtitle",
+                  "fill": "#8B949E",
+                  "content": "Today's Classes · 3 March 2026",
+                  "fontFamily": "Inter",
+                  "fontSize": 14
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "dl1h7",
+              "name": "Badge",
+              "fill": "#1F3A5F",
+              "cornerRadius": 8,
+              "gap": 8,
+              "padding": [
+                8,
+                16
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "fY3Rw",
+                  "name": "cpBadgeText",
+                  "fill": "#3B82F6",
+                  "content": "👥 24 students checked in across campus today",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "i56JE",
+              "name": "Classes",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "sZW13",
+                  "name": "Class Card 1",
+                  "width": "fill_container",
+                  "fill": "#161B22",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#30363D"
+                  },
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "vBEpN",
+                      "name": "Time",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "5GGAq",
+                          "name": "cc1TimeStart",
+                          "fill": "#3B82F6",
+                          "content": "10:00",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "xRkfS",
+                          "name": "cc1TimeEnd",
+                          "fill": "#8B949E",
+                          "content": "11:00",
+                          "fontFamily": "Inter",
+                          "fontSize": 12
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "QtcML",
+                      "name": "Divider",
+                      "width": 3,
+                      "height": 50,
+                      "fill": "#3B82F6",
+                      "cornerRadius": 2
+                    },
+                    {
+                      "type": "frame",
+                      "id": "1kXvq",
+                      "name": "Info",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "W3SyC",
+                          "name": "cc1Module",
+                          "fill": "#F0F6FC",
+                          "content": "Advanced Algorithms",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "qEP7a",
+                          "name": "cc1Room",
+                          "fill": "#8B949E",
+                          "content": "📍 Room R110 · Ritterman Building",
+                          "fontFamily": "Inter",
+                          "fontSize": 14
+                        },
+                        {
+                          "type": "text",
+                          "id": "OzkoU",
+                          "name": "cc1Headcount",
+                          "fill": "#22C55E",
+                          "content": "18/28 checked in",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "7KQRl",
+                      "name": "Check In Button",
+                      "fill": "#3B82F6",
+                      "cornerRadius": 8,
+                      "padding": [
+                        10,
+                        20
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "r3zmJ",
+                          "name": "cc1ButtonText",
+                          "fill": "#FFFFFF",
+                          "content": "Check In",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "3Oeak",
+                  "name": "Class Card 2",
+                  "width": "fill_container",
+                  "fill": "#161B22",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#30363D"
+                  },
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "RGjtG",
+                      "name": "Time",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "n56ut",
+                          "name": "cc2TimeStart",
+                          "fill": "#8B949E",
+                          "content": "13:00",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Rh414",
+                          "name": "cc2TimeEnd",
+                          "fill": "#6B7280",
+                          "content": "14:30",
+                          "fontFamily": "Inter",
+                          "fontSize": 12
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "T5tVY",
+                      "name": "Divider",
+                      "width": 3,
+                      "height": 50,
+                      "fill": "#30363D",
+                      "cornerRadius": 2
+                    },
+                    {
+                      "type": "frame",
+                      "id": "p4ahB",
+                      "name": "Info",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "yvTi0",
+                          "name": "cc2Module",
+                          "fill": "#F0F6FC",
+                          "content": "Web Technologies",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "hoGNc",
+                          "name": "cc2Room",
+                          "fill": "#8B949E",
+                          "content": "📍 Room H101 · Hatchcroft Building",
+                          "fontFamily": "Inter",
+                          "fontSize": 14
+                        },
+                        {
+                          "type": "text",
+                          "id": "NsRIL",
+                          "name": "cc2Headcount",
+                          "fill": "#8B949E",
+                          "content": "Upcoming",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }

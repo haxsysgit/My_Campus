@@ -1,22 +1,36 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShieldAlert, Phone, X } from "lucide-react";
+import { ShieldAlert, Phone, X, Loader2 } from "lucide-react";
 import { BUILDINGS } from "@/lib/campusData";
 import { useApp } from "@/context/AppContext";
+import { api } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
 export default function Emergency() {
   const { emergency, triggerEmergency, clearEmergency } = useApp();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
   const [alertSent, setAlertSent] = useState(false);
+  const [sending, setSending] = useState(false);
 
-  const handleSendAlert = () => {
-    if (!selectedBuilding) return;
-    triggerEmergency(selectedBuilding);
-    setAlertSent(true);
-    setTimeout(() => navigate("/navigate"), 3000);
+  const handleSendAlert = async () => {
+    if (!selectedBuilding || sending) return;
+    setSending(true);
+    try {
+      const building = BUILDINGS[selectedBuilding];
+      await api.sendEmergencyAlert(building?.lat || 51.5899, building?.lng || -0.2284, `Emergency at ${building?.name}`);
+      triggerEmergency(selectedBuilding);
+      setAlertSent(true);
+      toast({ title: "Alert sent", description: "Security has been notified" });
+      setTimeout(() => navigate("/navigate"), 3000);
+    } catch (err: any) {
+      toast({ title: "Failed to send alert", description: err.message, variant: "destructive" });
+    } finally {
+      setSending(false);
+    }
   };
 
   const handleClear = () => {
@@ -93,10 +107,11 @@ export default function Emergency() {
 
               <button
                 onClick={handleSendAlert}
-                disabled={!selectedBuilding}
+                disabled={!selectedBuilding || sending}
                 className="w-full py-4 rounded-md bg-destructive text-destructive-foreground font-bold text-lg disabled:opacity-40 hover:bg-destructive/90 transition-colors animate-emergency-pulse"
               >
-                🚨 SEND ALERT
+                {sending ? <Loader2 className="w-5 h-5 animate-spin inline mr-2" /> : "🚨 "}
+                {sending ? "SENDING..." : "SEND ALERT"}
               </button>
             </motion.div>
           )}

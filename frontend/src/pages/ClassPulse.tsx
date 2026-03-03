@@ -1,23 +1,54 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { DEMO_TIMETABLE } from "@/lib/campusData";
 import { useApp } from "@/context/AppContext";
-import ClassCard from "@/components/ClassCard";
-import { Users } from "lucide-react";
+import { api } from "@/lib/api";
+import { Card } from "@/components/ui/card";
+import { Users, Clock, MapPin, Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
-function getClassStatus(time: string, duration: number): "past" | "current" | "future" {
+interface ClassInfo {
+  id: string;
+  code: string;
+  name: string;
+  room: string;
+  building_name?: string;
+  start_time: string;
+  end_time: string;
+  headcount: { checked_in: number; total: number };
+}
+
+function getClassStatus(startTime: string, endTime: string): "past" | "current" | "future" {
   const now = new Date();
   const nowMin = now.getHours() * 60 + now.getMinutes();
-  const [h, m] = time.split(":").map(Number);
-  const start = h * 60 + m;
-  const end = start + duration;
+  const [sh, sm] = startTime.split(":").map(Number);
+  const [eh, em] = endTime.split(":").map(Number);
+  const start = sh * 60 + sm;
+  const end = eh * 60 + em;
   if (nowMin >= end) return "past";
   if (nowMin >= start) return "current";
   return "future";
 }
 
 export default function ClassPulse() {
-  const { occupancy } = useApp();
-  const totalCheckedIn = Object.values(occupancy).reduce((s, r) => s + r.count, 0);
+  const [classes, setClasses] = useState<ClassInfo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchClasses() {
+      try {
+        const data = await api.getTodaysClasses();
+        setClasses(data);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchClasses();
+  }, []);
+
+  const totalCheckedIn = classes.reduce((sum, c) => sum + c.headcount.checked_in, 0);
 
   return (
     <motion.div
@@ -37,19 +68,46 @@ export default function ClassPulse() {
         </div>
 
         {/* Class list */}
-        <div className="space-y-3">
-          {DEMO_TIMETABLE.map((entry) => (
-            <ClassCard
-              key={entry.code}
-              entry={entry}
-              status={getClassStatus(entry.time, entry.duration)}
-            />
-          ))}
-        </div>
-
-        {DEMO_TIMETABLE.length === 0 && (
+        {loading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          </div>
+        ) : error ? (
+          <div className="text-center py-12 text-destructive">{error}</div>
+        ) : classes.length === 0 ? (
           <div className="text-center py-12 text-muted-foreground">
             No classes scheduled for today.
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {classes.map((cls) => {
+              const status = getClassStatus(cls.start_time, cls.end_time);
+              return (
+                <Link key={cls.id} to={`/classpulse/${cls.id}`}>
+                  <Card className={`p-4 flex items-center gap-4 transition-colors hover:bg-muted/50 ${
+                    status === "current" ? "border-primary bg-primary/5" : 
+                    status === "past" ? "opacity-60" : ""
+                  }`}>
+                    <div className="flex flex-col items-center min-w-[60px]">
+                      <span className={`text-lg font-semibold ${status === "current" ? "text-primary" : "text-muted-foreground"}`}>
+                        {cls.start_time}
+                      </span>
+                      <span className="text-xs text-muted-foreground">{cls.end_time}</span>
+                    </div>
+                    <div className={`w-1 h-12 rounded-full ${status === "current" ? "bg-primary" : status === "past" ? "bg-accent" : "bg-muted"}`} />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-foreground truncate">{cls.name}</h3>
+                      <p className="text-sm text-muted-foreground flex items-center gap-1">
+                        <MapPin className="w-3 h-3" /> {cls.room}
+                      </p>
+                      <p className="text-xs text-accent mt-1">
+                        {cls.headcount.checked_in}/{cls.headcount.total} checked in
+                      </p>
+                    </div>
+                  </Card>
+                </Link>
+              );
+            })}
           </div>
         )}
       </div>

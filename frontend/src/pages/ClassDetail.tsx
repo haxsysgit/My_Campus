@@ -1,50 +1,87 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Check, QrCode, Camera } from "lucide-react";
+import { ArrowLeft, Check, QrCode, Camera, Loader2 } from "lucide-react";
 import QRCode from "qrcode";
-import { DEMO_TIMETABLE, BUILDINGS, ROOM_CAPACITIES } from "@/lib/campusData";
-import { useApp } from "@/context/AppContext";
+import { api } from "@/lib/api";
+import { useToast } from "@/hooks/use-toast";
 import HeadcountRing from "@/components/HeadcountRing";
 import { cn } from "@/lib/utils";
 
+interface ClassDetailData {
+  class_info: {
+    id: string;
+    code: string;
+    name: string;
+    room: string;
+    building_name?: string;
+    headcount: { checked_in: number; total: number };
+  };
+  students: { id: string; name: string; initials: string }[];
+  is_checked_in: boolean;
+}
+
 export default function ClassDetail() {
   const { roomId } = useParams<{ roomId: string }>();
-  const { occupancy, checkIn } = useApp();
+  const { toast } = useToast();
+  const [classData, setClassData] = useState<ClassDetailData | null>(null);
+  const [loading, setLoading] = useState(true);
   const [checkedIn, setCheckedIn] = useState(false);
+  const [checkingIn, setCheckingIn] = useState(false);
   const [scanning, setScanning] = useState(false);
   const [showQR, setShowQR] = useState(false);
   const [qrDataUrl, setQrDataUrl] = useState("");
   const scannerRef = useRef<HTMLDivElement>(null);
   const html5QrRef = useRef<any>(null);
 
-  const room = roomId ? occupancy[roomId] : null;
-  const roomInfo = roomId ? ROOM_CAPACITIES[roomId] : null;
-  const timetableEntry = DEMO_TIMETABLE.find((e) => e.room === roomId);
-  const building = timetableEntry ? BUILDINGS[timetableEntry.building] : null;
-
-  // Generate QR code image
   useEffect(() => {
-    if (timetableEntry) {
-      QRCode.toDataURL(timetableEntry.qrCode, {
+    async function fetchClass() {
+      if (!roomId) return;
+      try {
+        const data = await api.getClassDetail(roomId);
+        setClassData(data);
+        setCheckedIn(data.is_checked_in);
+      } catch (err: any) {
+        toast({ title: "Error", description: err.message, variant: "destructive" });
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchClass();
+  }, [roomId]);
+
+  // Generate QR code for demo
+  useEffect(() => {
+    if (classData) {
+      const qrCode = `CAMPUS:${classData.class_info.code}:DEMO:test`;
+      QRCode.toDataURL(qrCode, {
         width: 256,
         margin: 2,
         color: { dark: "#F9FAFB", light: "#111827" },
       }).then(setQrDataUrl);
     }
-  }, [timetableEntry]);
+  }, [classData]);
 
-  const handleCheckIn = useCallback(() => {
-    if (!roomId || checkedIn) return;
-    checkIn(roomId);
-    setCheckedIn(true);
-    setScanning(false);
-    // Stop scanner if running
-    if (html5QrRef.current) {
-      html5QrRef.current.stop().catch(() => {});
-      html5QrRef.current = null;
+  const handleCheckIn = useCallback(async (qrCode?: string) => {
+    if (!classData || checkedIn || checkingIn) return;
+    setCheckingIn(true);
+    try {
+      const code = qrCode || `CAMPUS:${classData.class_info.code}:DEMO:test`;
+      await api.checkInWithQR(code);
+      setCheckedIn(true);
+      setScanning(false);
+      toast({ title: "Checked in!", description: `You're checked in to ${classData.class_info.name}` });
+      // Stop scanner if running
+      if (html5QrRef.current) {
+        html5QrRef.current.stop().catch(() => {});
+        html5QrRef.current = null;
+      }
+    } catch (err: any) {
+      toast({ title: "Check-in failed", description: err.message, variant: "destructive" });
+    } finally {
+      setCheckingIn(false);
     }
-  }, [roomId, checkedIn, checkIn]);
+  }, [classData, checkedIn, checkingIn, toast]);
 
   const startScanner = async () => {
     setScanning(true);
@@ -56,8 +93,8 @@ export default function ClassDetail() {
         { facingMode: "environment" },
         { fps: 10, qrbox: { width: 250, height: 250 } },
         (decodedText) => {
-          if (timetableEntry && decodedText === timetableEntry.qrCode) {
-            handleCheckIn();
+          if (decodedText.startsWith("CAMPUS:")) {
+            handleCheckIn(decodedText);
           }
         },
         () => {}
@@ -75,13 +112,23 @@ export default function ClassDetail() {
     };
   }, []);
 
-  if (!roomId || !room || !roomInfo) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-[calc(100vh-3.5rem)]">
-        <p className="text-muted-foreground">Room not found</p>
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
   }
+
+  if (!classData) {
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-3.5rem)]">
+        <p className="text-muted-foreground">Class not found</p>
+      </div>
+    );
+  }
+
+  const { class_info } = classData;
 
   return (
     <motion.div
@@ -99,21 +146,19 @@ export default function ClassDetail() {
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="font-display text-2xl font-bold text-foreground">{roomId}</h1>
+            <h1 className="font-display text-2xl font-bold text-foreground">{class_info.name}</h1>
             <p className="text-sm text-muted-foreground">
-              {building?.name} · {roomInfo.buildingName}
+              {class_info.room} · {class_info.building_name || "Campus"}
             </p>
-            {timetableEntry && (
-              <p className="text-xs text-muted-foreground">{timetableEntry.module} · {timetableEntry.code}</p>
-            )}
+            <p className="text-xs text-muted-foreground">{class_info.code}</p>
           </div>
         </div>
 
         {/* Headcount Ring */}
         <div className="flex justify-center">
           <HeadcountRing
-            count={room.count}
-            total={timetableEntry?.enrolled || room.capacity}
+            count={class_info.headcount.checked_in}
+            total={class_info.headcount.total}
           />
         </div>
 
@@ -130,7 +175,7 @@ export default function ClassDetail() {
               <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center">
                 <Check className="w-8 h-8 text-accent-foreground" />
               </div>
-              <p className="font-display text-lg font-bold text-foreground">Checked in to {roomId} ✓</p>
+              <p className="font-display text-lg font-bold text-foreground">Checked in to {class_info.name} ✓</p>
               <Link
                 to="/classpulse"
                 className="px-4 py-2 rounded-md bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
@@ -166,11 +211,12 @@ export default function ClassDetail() {
 
               {/* Manual check-in */}
               <button
-                onClick={handleCheckIn}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-md bg-accent text-accent-foreground font-semibold text-sm hover:bg-accent/90 transition-colors"
+                onClick={() => handleCheckIn()}
+                disabled={checkingIn}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-md bg-accent text-accent-foreground font-semibold text-sm hover:bg-accent/90 transition-colors disabled:opacity-50"
               >
-                <Check className="w-4 h-4" />
-                Check In Manually
+                {checkingIn ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                {checkingIn ? "Checking in..." : "Check In Manually"}
               </button>
             </motion.div>
           )}
@@ -196,7 +242,7 @@ export default function ClassDetail() {
                 className="overflow-hidden flex flex-col items-center gap-2 p-4 rounded-lg bg-card border border-border"
               >
                 <img src={qrDataUrl} alt="QR Code" className="w-48 h-48 rounded" />
-                <p className="text-xs text-muted-foreground font-mono">{timetableEntry?.qrCode}</p>
+                <p className="text-xs text-muted-foreground font-mono">CAMPUS:{class_info.code}:DEMO:test</p>
               </motion.div>
             )}
           </AnimatePresence>

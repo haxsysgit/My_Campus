@@ -11,8 +11,9 @@ interface EmergencyState {
 interface CurrentUser {
   id: string;
   name: string;
-  studentId: string;
-  courses: string[];
+  email?: string;
+  studentId?: string;
+  courses?: string[];
 }
 
 interface RoomOccupancy {
@@ -22,7 +23,7 @@ interface RoomOccupancy {
 
 interface AppContextType {
   emergency: EmergencyState;
-  currentUser: CurrentUser;
+  currentUser: CurrentUser | null;
   routeResult: RouteResult | null;
   selectedBuilding: string | null;
   safeMode: boolean;
@@ -33,6 +34,9 @@ interface AppContextType {
   setSafeMode: (value: boolean) => void;
   setSelectedBuilding: (id: string | null) => void;
   checkIn: (roomCode: string) => void;
+  setCurrentUser: (user: CurrentUser | null) => void;
+  isAuthenticated: boolean;
+  logout: () => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -47,6 +51,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [routeResult, setRouteResult] = useState<RouteResult | null>(null);
   const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
   const [safeMode, setSafeMode] = useState(false);
+  const [currentUser, setCurrentUserState] = useState<CurrentUser | null>(null);
 
   // Initialize occupancy from ROOM_CAPACITIES with mock counts
   const [occupancy, setOccupancy] = useState<Record<string, RoomOccupancy>>(() => {
@@ -57,12 +62,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     return initial;
   });
 
-  const currentUser: CurrentUser = {
-    id: "demo_user_1",
-    name: "Alex",
-    studentId: "M00123456",
-    courses: ["CST3170", "CST3340", "CST3180"],
-  };
+  const setCurrentUser = useCallback((user: CurrentUser | null) => {
+    setCurrentUserState(user);
+  }, []);
+
+  const logout = useCallback(() => {
+    setCurrentUserState(null);
+    localStorage.removeItem('token');
+  }, []);
+
+  const isAuthenticated = !!currentUser;
 
   const triggerEmergency = useCallback((buildingId: string) => {
     setEmergency({ active: true, blockedBuilding: buildingId, triggeredAt: new Date() });
@@ -95,6 +104,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setSafeMode,
         setSelectedBuilding,
         checkIn,
+        setCurrentUser,
+        isAuthenticated,
+        logout,
       }}
     >
       {children}

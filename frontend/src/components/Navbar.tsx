@@ -1,12 +1,16 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { MapPin, Users, Shield, AlertTriangle, Clock } from "lucide-react";
+import { MapPin, Users, Shield, AlertTriangle, Clock, LogOut } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export default function Navbar() {
-  const { emergency } = useApp();
+  const { emergency, isAuthenticated, currentUser, logout } = useApp();
   const location = useLocation();
+
+  // Hide navbar on login page
+  if (location.pathname === "/login") return null;
+  if (!isAuthenticated) return null;
   const navigate = useNavigate();
   const [time, setTime] = useState(new Date());
 
@@ -79,6 +83,21 @@ export default function Navbar() {
             <AlertTriangle className="w-4 h-4" />
             <span className="hidden sm:inline">Emergency</span>
           </button>
+
+          {currentUser && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground hidden md:block">
+                {currentUser.name}
+              </span>
+              <button
+                onClick={() => { logout(); navigate("/login"); }}
+                className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted"
+                title="Logout"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </nav>
