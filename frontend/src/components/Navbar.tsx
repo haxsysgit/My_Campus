@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { MapPin, Users, Shield, AlertTriangle, Clock, User } from "lucide-react";
+import { MapPin, Users, Shield, AlertTriangle, Clock, User, LogOut } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -84,6 +84,16 @@ export default function Navbar() {
             <AlertTriangle className="w-4 h-4" />
             <span className="hidden sm:inline">Emergency</span>
           </button>
+
+          {currentUser && (
+            <button
+              onClick={() => { logout(); navigate("/login"); }}
+              className="p-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              title="Logout"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </div>
     </nav>

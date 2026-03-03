@@ -1,6 +1,21 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="512" height="512" rx="96" fill="#3B82F6"/>
-  <path d="M128 320L256 160L384 320" stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="256" cy="280" r="40" fill="white"/>
-  <rect x="128" y="340" width="256" height="40" rx="8" fill="white" opacity="0.8"/>
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#grad1)"/>
+  <!-- Campus building icon -->
+  <path d="M256 100 L380 200 L380 380 L132 380 L132 200 Z" fill="white" opacity="0.95"/>
+  <rect x="180" y="240" width="60" height="80" rx="4" fill="#3B82F6"/>
+  <rect x="272" y="240" width="60" height="80" rx="4" fill="#3B82F6"/>
+  <rect x="220" y="300" width="72" height="80" rx="4" fill="#1D4ED8"/>
+  <!-- Roof detail -->
+  <path d="M256 100 L400 210 L112 210 Z" fill="white"/>
+  <circle cx="256" cy="170" r="20" fill="#3B82F6"/>
+  <!-- Location pin -->
+  <circle cx="400" cy="140" r="50" fill="#22C55E"/>
+  <path d="M400 110 C385 110 372 123 372 140 C372 165 400 185 400 185 C400 185 428 165 428 140 C428 123 415 110 400 110 Z" fill="white"/>
+  <circle cx="400" cy="138" r="12" fill="#22C55E"/>
 </svg>

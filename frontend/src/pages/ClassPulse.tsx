@@ -3,8 +3,9 @@ import { motion } from "framer-motion";
 import { useApp } from "@/context/AppContext";
 import { api } from "@/lib/api";
 import { Card } from "@/components/ui/card";
-import { Users, Clock, MapPin, Loader2 } from "lucide-react";
+import { Users, Clock, MapPin, Loader2, Camera } from "lucide-react";
 import { Link } from "react-router-dom";
+import { DEMO_TIMETABLE, BUILDINGS } from "@/lib/campusData";
 
 interface ClassInfo {
   id: string;
@@ -38,9 +39,43 @@ export default function ClassPulse() {
     async function fetchClasses() {
       try {
         const data = await api.getTodaysClasses();
-        setClasses(data);
+        if (data && data.length > 0) {
+          setClasses(data);
+        } else {
+          // Fallback to demo data
+          const demoClasses: ClassInfo[] = DEMO_TIMETABLE.map((entry, idx) => {
+            const endHour = parseInt(entry.time.split(":")[0]) + Math.floor(entry.duration / 60);
+            const endMin = parseInt(entry.time.split(":")[1]) + (entry.duration % 60);
+            return {
+              id: entry.room,
+              code: entry.code,
+              name: entry.module,
+              room: entry.room,
+              building_name: BUILDINGS[entry.building]?.name,
+              start_time: entry.time,
+              end_time: `${endHour.toString().padStart(2, "0")}:${endMin.toString().padStart(2, "0")}`,
+              headcount: { checked_in: Math.floor(Math.random() * entry.enrolled), total: entry.enrolled },
+            };
+          });
+          setClasses(demoClasses);
+        }
       } catch (err: any) {
-        setError(err.message);
+        // Fallback to demo data on error
+        const demoClasses: ClassInfo[] = DEMO_TIMETABLE.map((entry) => {
+          const endHour = parseInt(entry.time.split(":")[0]) + Math.floor(entry.duration / 60);
+          const endMin = parseInt(entry.time.split(":")[1]) + (entry.duration % 60);
+          return {
+            id: entry.room,
+            code: entry.code,
+            name: entry.module,
+            room: entry.room,
+            building_name: BUILDINGS[entry.building]?.name,
+            start_time: entry.time,
+            end_time: `${endHour.toString().padStart(2, "0")}:${endMin.toString().padStart(2, "0")}`,
+            headcount: { checked_in: Math.floor(Math.random() * entry.enrolled), total: entry.enrolled },
+          };
+        });
+        setClasses(demoClasses);
       } finally {
         setLoading(false);
       }

@@ -1,12 +1,23 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Check, QrCode, Camera, Loader2 } from "lucide-react";
+import { ArrowLeft, Check, QrCode, Camera, Loader2, Users, MapPin } from "lucide-react";
 import QRCode from "qrcode";
 import { api } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import HeadcountRing from "@/components/HeadcountRing";
 import { cn } from "@/lib/utils";
+import { DEMO_TIMETABLE, ROOM_CAPACITIES } from "@/lib/campusData";
+
+interface Student {
+  id: string;
+  name: string;
+  initials: string;
+  student_id?: string;
+  seat_row?: number;
+  seat_col?: number;
+  checked_in?: boolean;
+}
 
 interface ClassDetailData {
   class_info: {
@@ -17,9 +28,21 @@ interface ClassDetailData {
     building_name?: string;
     headcount: { checked_in: number; total: number };
   };
-  students: { id: string; name: string; initials: string }[];
+  students: Student[];
   is_checked_in: boolean;
 }
+
+// Demo students for fallback
+const DEMO_STUDENTS: Student[] = [
+  { id: "1", name: "Alex Kumar", initials: "AK", student_id: "M01081164", seat_row: 0, seat_col: 2, checked_in: true },
+  { id: "2", name: "Sarah Johnson", initials: "SJ", student_id: "M01082345", seat_row: 1, seat_col: 0, checked_in: true },
+  { id: "3", name: "Mike Peters", initials: "MP", student_id: "M01083456", seat_row: 1, seat_col: 3, checked_in: true },
+  { id: "4", name: "Emma Wilson", initials: "EW", student_id: "M01084567", seat_row: 2, seat_col: 1, checked_in: true },
+  { id: "5", name: "James Chen", initials: "JC", student_id: "M01085678", seat_row: 2, seat_col: 4, checked_in: false },
+  { id: "6", name: "Lisa Brown", initials: "LB", student_id: "M01086789", seat_row: 3, seat_col: 2, checked_in: true },
+  { id: "7", name: "David Smith", initials: "DS", student_id: "M01087890", seat_row: 0, seat_col: 4, checked_in: false },
+  { id: "8", name: "Amy Taylor", initials: "AT", student_id: "M01088901", seat_row: 3, seat_col: 0, checked_in: true },
+];
 
 export default function ClassDetail() {
   const { roomId } = useParams<{ roomId: string }>();
@@ -39,10 +62,46 @@ export default function ClassDetail() {
       if (!roomId) return;
       try {
         const data = await api.getClassDetail(roomId);
-        setClassData(data);
-        setCheckedIn(data.is_checked_in);
+        if (data && data.class_info) {
+          // Add demo students if none returned
+          if (!data.students || data.students.length === 0) {
+            data.students = DEMO_STUDENTS;
+          }
+          setClassData(data);
+          setCheckedIn(data.is_checked_in);
+        } else {
+          // Fallback to demo data
+          const demoEntry = DEMO_TIMETABLE.find(e => e.room === roomId) || DEMO_TIMETABLE[0];
+          const roomInfo = ROOM_CAPACITIES[roomId] || { capacity: 35, buildingName: "Campus" };
+          setClassData({
+            class_info: {
+              id: roomId || "R110",
+              code: demoEntry.code,
+              name: demoEntry.module,
+              room: demoEntry.room,
+              building_name: roomInfo.buildingName,
+              headcount: { checked_in: DEMO_STUDENTS.filter(s => s.checked_in).length, total: demoEntry.enrolled },
+            },
+            students: DEMO_STUDENTS,
+            is_checked_in: false,
+          });
+        }
       } catch (err: any) {
-        toast({ title: "Error", description: err.message, variant: "destructive" });
+        // Fallback to demo data on error
+        const demoEntry = DEMO_TIMETABLE.find(e => e.room === roomId) || DEMO_TIMETABLE[0];
+        const roomInfo = ROOM_CAPACITIES[roomId || "R110"] || { capacity: 35, buildingName: "Campus" };
+        setClassData({
+          class_info: {
+            id: roomId || "R110",
+            code: demoEntry.code,
+            name: demoEntry.module,
+            room: demoEntry.room,
+            building_name: roomInfo.buildingName,
+            headcount: { checked_in: DEMO_STUDENTS.filter(s => s.checked_in).length, total: demoEntry.enrolled },
+          },
+          students: DEMO_STUDENTS,
+          is_checked_in: false,
+        });
       } finally {
         setLoading(false);
       }
@@ -221,6 +280,101 @@ export default function ClassDetail() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Classroom Seat Map */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
+              <Users className="w-4 h-4" />
+              Classroom Layout
+            </h3>
+            <span className="text-xs text-muted-foreground">
+              {classData.students.filter(s => s.checked_in).length} seated · {(ROOM_CAPACITIES[class_info.room]?.capacity || 35) - classData.students.filter(s => s.checked_in).length} available
+            </span>
+          </div>
+          
+          {/* Seat Grid */}
+          <div className="p-4 rounded-lg bg-card border border-border">
+            {/* Lecturer area */}
+            <div className="mb-4 pb-3 border-b border-border text-center">
+              <div className="inline-block px-4 py-2 bg-muted rounded text-xs text-muted-foreground">
+                📽️ Lecturer / Screen
+              </div>
+            </div>
+            
+            {/* Seat rows */}
+            <div className="space-y-2">
+              {[0, 1, 2, 3].map((row) => (
+                <div key={row} className="flex justify-center gap-2">
+                  {[0, 1, 2, 3, 4].map((col) => {
+                    const student = classData.students.find(
+                      (s) => s.seat_row === row && s.seat_col === col
+                    );
+                    const isOccupied = student && student.checked_in;
+                    const isYou = student?.student_id === "M01081164"; // Demo: first student is "you"
+                    
+                    return (
+                      <div
+                        key={`${row}-${col}`}
+                        className={cn(
+                          "w-10 h-10 rounded-md flex items-center justify-center text-xs font-semibold transition-all cursor-pointer",
+                          isYou
+                            ? "bg-primary text-primary-foreground ring-2 ring-primary ring-offset-2 ring-offset-background"
+                            : isOccupied
+                            ? "bg-accent/20 text-accent border border-accent/30"
+                            : "bg-muted/50 text-muted-foreground border border-border hover:bg-muted"
+                        )}
+                        title={student ? `${student.name} (${student.student_id})` : "Empty seat"}
+                      >
+                        {isOccupied ? student?.initials : ""}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
+            
+            {/* Legend */}
+            <div className="mt-4 pt-3 border-t border-border flex justify-center gap-4 text-xs">
+              <div className="flex items-center gap-1.5">
+                <div className="w-4 h-4 rounded bg-primary" />
+                <span className="text-muted-foreground">You</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-4 h-4 rounded bg-accent/20 border border-accent/30" />
+                <span className="text-muted-foreground">Classmate</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-4 h-4 rounded bg-muted/50 border border-border" />
+                <span className="text-muted-foreground">Available</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Classmates List */}
+        <div className="space-y-3">
+          <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
+            <MapPin className="w-4 h-4" />
+            Classmates Checked In
+          </h3>
+          <div className="grid grid-cols-2 gap-2">
+            {classData.students.filter(s => s.checked_in).map((student) => (
+              <div
+                key={student.id}
+                className="flex items-center gap-2 p-2 rounded-lg bg-card border border-border"
+              >
+                <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-xs font-semibold text-accent">
+                  {student.initials}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{student.name}</p>
+                  <p className="text-xs text-muted-foreground">{student.student_id}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
         {/* Show QR code for demo */}
         <div className="space-y-2">
