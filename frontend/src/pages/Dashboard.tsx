@@ -3,6 +3,7 @@ import { MapPin, Users, Shield, ArrowRight, BookOpen } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { DEMO_TIMETABLE, BUILDINGS } from "@/lib/campusData";
 import { motion } from "framer-motion";
+import DashboardMap from "@/components/DashboardMap";
 
 function getGreeting() {
   const h = new Date().getHours();
@@ -96,8 +97,15 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* Dashboard Map — today's schedule + live campus */}
+      <div className="container mx-auto px-4 pt-6">
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+          <DashboardMap />
+        </motion.div>
+      </div>
+
       {/* Feature Cards */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-6">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {cards.map((card, i) => (
             <motion.div

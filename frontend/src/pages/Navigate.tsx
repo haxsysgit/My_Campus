@@ -253,6 +253,10 @@ export default function Navigate() {
             const occStatus = worstPct >= 0 ? getOccupancyStatus(worstPct) : null;
             const occCfg = occStatus ? OCCUPANCY_CONFIG[occStatus] : null;
 
+            // Visual identity: accommodation buildings get a square/rounded-sm marker
+            const isAccommodation = b.type === "accommodation";
+            const isOutdoor = b.type === "outdoor";
+
             return (
               <button
                 key={b.id}
@@ -267,19 +271,26 @@ export default function Navigate() {
                 }}
               >
                 <div className={cn(
-                  "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-lg border-2 transition-all",
+                  "flex items-center justify-center text-xs font-bold shadow-lg border-2 transition-all",
+                  // Shape: round for academic, rounded-md for accommodation, diamond-ish for outdoor
+                  isAccommodation ? "w-8 h-8 rounded-md" : isOutdoor ? "w-7 h-7 rounded-sm rotate-45" : "w-8 h-8 rounded-full",
                   isBlocked ? "bg-red-500 border-red-700 text-white animate-pulse" :
                   isStart  ? "bg-emerald-500 border-emerald-700 text-white" :
                   isEnd    ? "bg-blue-500 border-blue-700 text-white" :
                   isOnRoute ? "bg-primary border-primary/80 text-white" :
                   isSelected ? "bg-primary border-primary text-white ring-2 ring-primary/30 ring-offset-1" :
+                  // Accommodation: purple tones
+                  isAccommodation ? "bg-purple-100 border-purple-400 text-purple-800 hover:border-purple-600" :
+                  isOutdoor ? "bg-green-100 border-green-400 text-green-800" :
                   occStatus === "overcrowded" ? "bg-red-100 border-red-400 text-red-700" :
                   occStatus === "busy"        ? "bg-orange-100 border-orange-400 text-orange-700" :
                   occStatus === "filling"     ? "bg-yellow-100 border-yellow-400 text-yellow-700" :
                   occStatus === "available"   ? "bg-emerald-100 border-emerald-400 text-emerald-700" :
                   "bg-white border-gray-300 text-gray-800 hover:border-primary hover:scale-110"
                 )}>
-                  {isStart ? "A" : isEnd ? "B" : b.code}
+                  <span className={isOutdoor ? "-rotate-45" : ""}>
+                    {isStart ? "A" : isEnd ? "B" : b.code}
+                  </span>
                 </div>
 
                 {/* Status dot for rooms */}
@@ -290,24 +301,30 @@ export default function Navigate() {
                   )} />
                 )}
 
+                {/* Type badge for accommodation */}
+                {isAccommodation && !isSelected && (
+                  <span className="absolute -top-0.5 -left-0.5 w-3 h-3 rounded-full bg-purple-500 border border-white flex items-center justify-center text-[7px] text-white font-bold">
+                    H
+                  </span>
+                )}
+
                 <span className={cn(
                   "text-[10px] font-semibold px-1 py-0.5 rounded shadow-sm whitespace-nowrap transition-all",
                   isSelected ? "bg-primary text-primary-foreground" :
                   isBlocked  ? "bg-red-100 text-red-700" :
+                  isAccommodation ? "bg-purple-50 text-purple-800 border border-purple-200" :
                   "bg-white/95 text-gray-700 group-hover:bg-primary/10 group-hover:text-primary"
                 )}>
                   {b.name.replace(" Building", "")}
                 </span>
 
-                {/* Occupancy label on hover */}
-                {occCfg && (
-                  <span className={cn(
-                    "absolute -bottom-5 text-[9px] font-bold px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap",
-                    occCfg.color, "bg-white/95 shadow-sm"
-                  )}>
-                    {occCfg.label}
-                  </span>
-                )}
+                {/* Tooltip on hover: show type + occupancy */}
+                <span className={cn(
+                  "absolute -bottom-5 text-[9px] font-bold px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-white/95 shadow-sm",
+                  isAccommodation ? "text-purple-700" : occCfg ? occCfg.color : "text-muted-foreground"
+                )}>
+                  {isAccommodation ? "🏠 Accommodation" : occCfg ? occCfg.label : ""}
+                </span>
               </button>
             );
           })}

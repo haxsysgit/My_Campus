@@ -9,6 +9,7 @@ export interface Building {
   mapY: number;
   rooms: string[];
   description: string;
+  type?: "academic" | "accommodation" | "outdoor" | "facility";
 }
 
 export interface WalkingEdge {
@@ -100,8 +101,8 @@ export const BUILDINGS: Record<string, Building> = {
     code: "Q",
     lat: 51.58830,
     lng: -0.22920,
-    mapX: 358,
-    mapY: 448,
+    mapX: 378,
+    mapY: 470,
     rooms: [],
     description: "Central campus outdoor space",
   },
@@ -111,8 +112,8 @@ export const BUILDINGS: Record<string, Building> = {
     code: "F",
     lat: 51.58870,
     lng: -0.23050,
-    mapX: 248,
-    mapY: 568,
+    mapX: 262,
+    mapY: 590,
     rooms: [],
     description: "Business School",
   },
@@ -133,10 +134,11 @@ export const BUILDINGS: Record<string, Building> = {
     code: "RF",
     lat: 51.58820,
     lng: -0.23120,
-    mapX: 168,
-    mapY: 558,
+    mapX: 182,
+    mapY: 578,
     rooms: [],
     description: "Student accommodation",
+    type: "accommodation",
   },
 };
 

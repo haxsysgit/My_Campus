@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Check, QrCode, Camera, Loader2, Users, MapPin } from "lucide-react";
+import { ArrowLeft, Check, QrCode, Camera, Loader2, Users, MapPin, CalendarCheck, X } from "lucide-react";
 import QRCode from "qrcode";
 import { api } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
@@ -54,8 +54,28 @@ export default function ClassDetail() {
   const [scanning, setScanning] = useState(false);
   const [showQR, setShowQR] = useState(false);
   const [qrDataUrl, setQrDataUrl] = useState("");
+  const [bookedSeat, setBookedSeat] = useState<{ row: number; col: number } | null>(null);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [pendingSeat, setPendingSeat] = useState<{ row: number; col: number } | null>(null);
   const scannerRef = useRef<HTMLDivElement>(null);
   const html5QrRef = useRef<any>(null);
+
+  const handleSeatClick = (row: number, col: number, isOccupied: boolean) => {
+    if (isOccupied) return;
+    setPendingSeat({ row, col });
+    setShowBookingModal(true);
+  };
+
+  const confirmBooking = () => {
+    if (!pendingSeat) return;
+    setBookedSeat(pendingSeat);
+    setShowBookingModal(false);
+    setPendingSeat(null);
+    toast({
+      title: "Seat reserved!",
+      description: `Row ${pendingSeat.row + 1}, Seat ${pendingSeat.col + 1} is held for you.`,
+    });
+  };
 
   useEffect(() => {
     async function fetchClass() {
@@ -288,9 +308,23 @@ export default function ClassDetail() {
               <Users className="w-4 h-4" />
               Classroom Layout
             </h3>
-            <span className="text-xs text-muted-foreground">
-              {classData.students.filter(s => s.checked_in).length} seated · {(ROOM_CAPACITIES[class_info.room]?.capacity || 35) - classData.students.filter(s => s.checked_in).length} available
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground">
+                {classData.students.filter(s => s.checked_in).length} seated · {(ROOM_CAPACITIES[class_info.room]?.capacity || 35) - classData.students.filter(s => s.checked_in).length} available
+              </span>
+              {!bookedSeat ? (
+                <button
+                  onClick={() => toast({ title: "Tap any empty seat", description: "Click a grey seat to reserve it" })}
+                  className="flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                >
+                  <CalendarCheck className="w-3 h-3" /> Book Seat
+                </button>
+              ) : (
+                <span className="flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">
+                  <Check className="w-3 h-3" /> R{bookedSeat.row + 1}·S{bookedSeat.col + 1} reserved
+                </span>
+              )}
+            </div>
           </div>
           
           {/* Seat Grid */}
@@ -310,24 +344,29 @@ export default function ClassDetail() {
                     const student = classData.students.find(
                       (s) => s.seat_row === row && s.seat_col === col
                     );
-                    const isOccupied = student && student.checked_in;
-                    const isYou = student?.student_id === "M01081164"; // Demo: first student is "you"
+                    const isOccupied = !!(student && student.checked_in);
+                    const isYou = student?.student_id === "M01081164";
+                    const isBooked = bookedSeat?.row === row && bookedSeat?.col === col;
                     
                     return (
-                      <div
+                      <button
                         key={`${row}-${col}`}
+                        onClick={() => handleSeatClick(row, col, isOccupied)}
+                        disabled={isOccupied}
                         className={cn(
-                          "w-10 h-10 rounded-md flex items-center justify-center text-xs font-semibold transition-all cursor-pointer",
+                          "w-10 h-10 rounded-md flex items-center justify-center text-xs font-semibold transition-all",
                           isYou
-                            ? "bg-primary text-primary-foreground ring-2 ring-primary ring-offset-2 ring-offset-background"
+                            ? "bg-primary text-primary-foreground ring-2 ring-primary ring-offset-2 ring-offset-background cursor-default"
+                            : isBooked
+                            ? "bg-emerald-500 text-white ring-2 ring-emerald-400 ring-offset-1"
                             : isOccupied
-                            ? "bg-accent/20 text-accent border border-accent/30"
-                            : "bg-muted/50 text-muted-foreground border border-border hover:bg-muted"
+                            ? "bg-accent/20 text-accent border border-accent/30 cursor-default"
+                            : "bg-muted/50 text-muted-foreground border border-border hover:bg-primary/10 hover:border-primary hover:text-primary cursor-pointer"
                         )}
-                        title={student ? `${student.name} (${student.student_id})` : "Empty seat"}
+                        title={isBooked ? "Your reserved seat" : student ? `${student.name} (${student.student_id})` : "Empty — tap to book"}
                       >
-                        {isOccupied ? student?.initials : ""}
-                      </div>
+                        {isBooked ? <Check className="w-3.5 h-3.5" /> : isOccupied ? student?.initials : ""}
+                      </button>
                     );
                   })}
                 </div>
@@ -335,7 +374,7 @@ export default function ClassDetail() {
             </div>
             
             {/* Legend */}
-            <div className="mt-4 pt-3 border-t border-border flex justify-center gap-4 text-xs">
+            <div className="mt-4 pt-3 border-t border-border flex justify-center flex-wrap gap-4 text-xs">
               <div className="flex items-center gap-1.5">
                 <div className="w-4 h-4 rounded bg-primary" />
                 <span className="text-muted-foreground">You</span>
@@ -348,9 +387,75 @@ export default function ClassDetail() {
                 <div className="w-4 h-4 rounded bg-muted/50 border border-border" />
                 <span className="text-muted-foreground">Available</span>
               </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-4 h-4 rounded bg-emerald-500" />
+                <span className="text-muted-foreground">Reserved</span>
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Seat Booking Modal */}
+        <AnimatePresence>
+          {showBookingModal && pendingSeat && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/40"
+              onClick={() => setShowBookingModal(false)}
+            >
+              <motion.div
+                initial={{ y: 40, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 40, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+                className="w-full max-w-sm bg-card rounded-xl border border-border shadow-2xl p-6 space-y-4"
+              >
+                <div className="flex items-center justify-between">
+                  <h3 className="font-display font-bold text-foreground flex items-center gap-2">
+                    <CalendarCheck className="w-5 h-5 text-primary" />
+                    Reserve Seat
+                  </h3>
+                  <button onClick={() => setShowBookingModal(false)} className="p-1 rounded hover:bg-muted">
+                    <X className="w-4 h-4 text-muted-foreground" />
+                  </button>
+                </div>
+                <div className="p-4 rounded-lg bg-muted/50 space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Class</span>
+                    <span className="font-medium">{class_info.name}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Room</span>
+                    <span className="font-medium">{class_info.room}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Seat</span>
+                    <span className="font-semibold text-primary">Row {pendingSeat.row + 1}, Seat {pendingSeat.col + 1}</span>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Your seat will be held until 10 minutes after class starts.
+                </p>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setShowBookingModal(false)}
+                    className="flex-1 py-2.5 rounded-lg border border-border text-sm font-semibold text-muted-foreground hover:bg-muted transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={confirmBooking}
+                    className="flex-1 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
+                  >
+                    Confirm Booking
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Classmates List */}
         <div className="space-y-3">
