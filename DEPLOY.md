@@ -123,7 +123,7 @@ For Middlesex University IT deployment:
    [Service]
    User=www-data
    WorkingDirectory=/var/www/mycampus/backend
-   ExecStart=/usr/local/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+   ExecStart=/usr/local/bin/uv run uvicorn app.main:app --host 0.0.0.0 --port 8000
    Restart=always
 
    [Install]
