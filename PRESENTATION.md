@@ -1,11 +1,38 @@
 # MyCampus — Presentation Guide
 ### Middlesex University Hackathon 2026
+#### Addressing **Brief 1** (Smart Navigation) + **Brief 3** (Safety & Security)
+
+---
+
+## 📌 WHICH BRIEFS WE COVER — SAY THIS EARLY
+
+> "MyCampus is our answer to **Brief 1 and Brief 3**. Brief 1 asked for a smart navigation system with timetable awareness and empty classroom finding. Brief 3 asked for student authentication, building occupancy monitoring, and campus safety tools including panic options and safe route planning. We built all of that in one integrated app."
+
+### Brief 1 — Smart Navigation ✅ What we built
+The brief asked for:
+- ✅ **Campus navigation** — full Hendon campus map, click any building, get the fastest walking route
+- ✅ **Quickest path** — pathfinding algorithm calculates fastest route between any two buildings
+- ✅ **Timetable awareness** — Dashboard shows next class with a direct "Navigate there" link
+- ✅ **Empty classroom / study space finder** — every building is colour-coded by occupancy; green = space available, click in to see exactly which rooms are free
+- ✅ **Extension: Emergency rerouting** — Safety Mode re-routes away from flagged/unsafe paths; emergency lock-down turns building markers red on the map
+
+### Brief 3 — Safety & Security on Campus ✅ What we built
+The brief asked for:
+- ✅ **Student authentication** — JWT login with university MDX email + student ID (M-number) verified on every request
+- ✅ **Building access awareness** — live occupancy tracker shows who is in which building and how many people
+- ✅ **Keep security in the loop** — panic button instantly alerts campus security with the student's GPS location and the nearest building
+- ✅ **Total users in building** — headcount visible per building and per room in real-time
+- ✅ **Enter/leave tracking** — QR check-in logs when students arrive; seat booking tracks expected arrivals
+- ✅ **Extension: Safe night route planning** — Safety Mode avoids unlit/isolated paths after dark
+- ✅ **Extension: Panic/alarm options** — red panic button in the persistent navbar, always one tap away
+- ✅ **Extension: Lockdown mode** — emergency state turns the whole map into a lockdown view with affected buildings highlighted
 
 ---
 
 ## ⚡ QUICK-FIRE CHEAT SHEET
 > Print this. Glance at it before you go up. These are the things you MUST say.
 
+- **State the briefs upfront** — "We tackled Brief 1 AND Brief 3 — navigation AND safety"
 - **"We've all been there"** — open with a relatable story (full room, wrong building)
 - **The app is LIVE** — real backend, real login, real data. Not a prototype.
 - **Colour-coded map** — green = fine, red = stay away, it's that simple
@@ -40,6 +67,10 @@
 ### OPENING — Set the Scene (30 seconds)
 *Standing at login screen. Look at the audience, not the screen.*
 
+"We tackled **Brief 1 and Brief 3** — smart campus navigation AND safety and security. Not one, both. Let me show you why."
+
+*Pause.*
+
 "Raise your hand if you've ever walked to a lecture room, got there, and it was already completely full."
 
 *Pause. Let people react.*
@@ -48,7 +79,7 @@
 
 *Pause.*
 
-"Yeah. We've all done it. And honestly it's embarrassing and it wastes time. So we built MyCampus — a smart companion app designed specifically for MDX students. Let me show you."
+"Yeah. We've all done it. And honestly it's embarrassing and it wastes time. Brief 1 asked us to solve exactly that. Brief 3 asked us to make the campus safer and smarter about who's where. MyCampus does both."
 
 *Log in with `ak1234@live.mdx.ac.uk` / `demo123`*
 
@@ -69,10 +100,12 @@
 
 ---
 
-### STEP 2 — The Campus Map (90 seconds)
+### STEP 2 — The Campus Map (90 seconds) *(Brief 1)*
 *Click Navigate in the navbar.*
 
-"Now let's look at the full Navigate page. This is the actual Middlesex Hendon campus — not a generic map, this is OUR campus."
+"Brief 1 asked for a smart navigation system with timetable awareness and a way to find empty classrooms. Here it is."
+
+"This is the actual Middlesex Hendon campus — not a generic map, this is OUR campus."
 
 *Point to the building markers.*
 
@@ -96,10 +129,12 @@
 
 ---
 
-### STEP 3 — ClassPulse & Checking In (90 seconds)
+### STEP 3 — ClassPulse & Checking In (90 seconds) *(Brief 1 + Brief 3)*
 *Click ClassPulse in the navbar.*
 
-"This is ClassPulse — our answer to the paper register."
+"This covers two briefs at once. Brief 1 wanted timetable awareness and finding where people are. Brief 3 wanted to know who's in the building, when they arrived, and proper student verification. ClassPulse does all of that."
+
+"And it replaces the paper register entirely."
 
 *Point to today's classes.*
 
@@ -137,17 +172,19 @@ You choose. The app never shares your location without your permission. Full sto
 
 ---
 
-### STEP 5 — The Panic Button (20 seconds)
+### STEP 5 — The Panic Button (20 seconds) *(Brief 3 core requirement)*
 *Point to the red emergency button in the top navbar.*
 
-"Last thing — and hopefully you never need it. That red button in the top bar. Hit it and within seconds, campus security gets an alert with your exact GPS location. The building you're near gets flagged on the map. Your nearby friends get notified too."
+"Brief 3 specifically asked for panic and alarm options, and for keeping security in the loop. That red button in the top bar — hit it and within seconds, campus security gets an alert with your exact GPS location. The building you're near gets flagged on the map in red. Nearby friends get notified too."
 
-"We take student safety seriously. That's not an afterthought — it's built into the main navigation."
+"This isn't an afterthought — it's in the persistent navbar on every single page. You never have to go looking for it."
 
 ---
 
 ### CLOSING — Leave Them Thinking (30 seconds)
 *Step back. Look at the room.*
+
+"Brief 1 said: help students navigate and find empty spaces. Done. Brief 3 said: authenticate students, track building usage, and add safety tools. Done."
 
 "We built this in a single hackathon weekend. It's not a mockup — it's a working app with a real backend, a real database, real login and real QR check-in."
 
@@ -214,15 +251,19 @@ Don't say "microservices" or "Kubernetes" to a non-technical audience. Instead s
 
 ## 🏆 Why We Win
 
-| What we built | Why it matters |
-|---------------|----------------|
-| Live occupancy map | Students stop wasting time walking to full rooms |
-| QR check-in | Lecturers get instant attendance without paper |
-| Seat booking | Students know where they're sitting before they arrive |
-| Dashboard timetable map | One screen tells you everything about your day |
-| Privacy controls | Students actually trust it and use it |
-| Panic button | University takes student safety seriously |
-| Ritterman vs Ravensfield markers | Tiny detail that shows we thought about real student pain |
+| What we built | Brief | Why it matters |
+|---------------|-------|----------------|
+| Live occupancy map + colour coding | Brief 1 | Students stop wasting time walking to full rooms |
+| Timetable-aware dashboard map | Brief 1 | One screen, you know exactly where to be and when |
+| Quickest route pathfinding | Brief 1 | Calculates fastest walking path between any two buildings |
+| Empty classroom finder | Brief 1 | Green building = space available, no more guessing |
+| QR check-in + student ID auth | Brief 3 | Verified attendance — right person, right room, right time |
+| Building headcount tracking | Brief 3 | Security knows how many people are in each building live |
+| Panic button + GPS alert | Brief 3 | One tap, security knows exactly where you are |
+| Safety Mode route planning | Brief 3 | Avoids dark/unsafe paths — Brief 3 extension requirement |
+| Emergency lockdown map state | Brief 3 | Entire map flips to lockdown view — Brief 3 extension |
+| Seat booking | Brief 1+3 | Predicted arrivals tracked before students even get there |
+| Privacy controls | Brief 3 | Students trust it; GDPR compliant; anonymous mode built-in |
 
 ---
 
