@@ -3188,8 +3188,7 @@
               "fill": "$text-secondary",
               "content": "ak1234@live.mdx.ac.uk",
               "fontFamily": "DM Sans",
-              "fontSize": 14,
-              "fontWeight": "normal"
+              "fontSize": 14
             }
           ]
         },
@@ -3223,8 +3222,7 @@
               "fill": "$text-secondary",
               "content": "Control who can see your location on campus",
               "fontFamily": "DM Sans",
-              "fontSize": 13,
-              "fontWeight": "normal"
+              "fontSize": 13
             },
             {
               "type": "frame",
@@ -3285,8 +3283,7 @@
                           "fill": "$text-secondary",
                           "content": "Only building counts shown",
                           "fontFamily": "DM Sans",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
+                          "fontSize": 12
                         }
                       ]
                     }
@@ -3354,8 +3351,7 @@
                           "fill": "$text-secondary",
                           "content": "Classmates can see your location",
                           "fontFamily": "DM Sans",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
+                          "fontSize": 12
                         }
                       ]
                     },
@@ -3438,8 +3434,7 @@
                           "fill": "$text-secondary",
                           "content": "Friends can see your exact location",
                           "fontFamily": "DM Sans",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
+                          "fontSize": 12
                         }
                       ]
                     }
@@ -4228,8 +4223,7 @@
                       "fill": "$text-secondary",
                       "content": "📍 Sheppard Library • 2 min away",
                       "fontFamily": "DM Sans",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
+                      "fontSize": 12
                     }
                   ]
                 },
@@ -4303,8 +4297,7 @@
                       "fill": "$text-secondary",
                       "content": "📍 Grove Building • 5 min away",
                       "fontFamily": "DM Sans",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
+                      "fontSize": 12
                     }
                   ]
                 },
@@ -4378,8 +4371,7 @@
                       "fill": "$text-secondary",
                       "content": "🚶 Walking to College Building",
                       "fontFamily": "DM Sans",
-                      "fontSize": 12,
-                      "fontWeight": "normal"
+                      "fontSize": 12
                     }
                   ]
                 },
@@ -4538,151 +4530,6 @@
                   "fontFamily": "DM Sans",
                   "fontSize": 11,
                   "fontWeight": "500"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "TWV0P",
-      "x": 0,
-      "y": 1000,
-      "name": "Desktop: Dashboard",
-      "clip": true,
-      "width": 1440,
-      "height": 900,
-      "fill": "#FAFAFA",
-      "layout": "vertical",
-      "children": [
-        {
-          "type": "frame",
-          "id": "AZQmq",
-          "name": "Navbar",
-          "width": "fill_container",
-          "height": 56,
-          "fill": "#FFFFFF",
-          "stroke": {
-            "thickness": {
-              "bottom": 1
-            },
-            "fill": "#E5E7EB"
-          },
-          "padding": [
-            0,
-            32
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "frame",
-              "id": "r3Dp5",
-              "name": "Logo Section",
-              "gap": 24,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "zan6x",
-                  "name": "Logo",
-                  "width": 32,
-                  "height": 32,
-                  "fill": "#3B82F6",
-                  "cornerRadius": 8
-                },
-                {
-                  "type": "text",
-                  "id": "oA48L",
-                  "name": "appName",
-                  "fill": "#1A1A1A",
-                  "content": "MyCampus",
-                  "fontFamily": "Inter",
-                  "fontSize": 20,
-                  "fontWeight": "700"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "Rg4Fv",
-              "name": "Nav Links",
-              "gap": 32,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "kHrH6",
-                  "name": "navDashboard",
-                  "fill": "#3B82F6",
-                  "content": "Dashboard",
-                  "fontFamily": "Inter",
-                  "fontSize": 14,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "NI5fD",
-                  "name": "navNavigate",
-                  "fill": "#6B7280",
-                  "content": "Navigate",
-                  "fontFamily": "Inter",
-                  "fontSize": 14,
-                  "fontWeight": "500"
-                },
-                {
-                  "type": "text",
-                  "id": "O0nnS",
-                  "name": "navClassPulse",
-                  "fill": "#6B7280",
-                  "content": "ClassPulse",
-                  "fontFamily": "Inter",
-                  "fontSize": 14,
-                  "fontWeight": "500"
-                },
-                {
-                  "type": "text",
-                  "id": "xFhZV",
-                  "name": "navEmergency",
-                  "fill": "#6B7280",
-                  "content": "Emergency",
-                  "fontFamily": "Inter",
-                  "fontSize": 14,
-                  "fontWeight": "500"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "b7zCq",
-              "name": "User Section",
-              "gap": 12,
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "ZH8T0",
-                  "name": "Avatar",
-                  "width": 36,
-                  "height": 36,
-                  "fill": "#E0F2FE",
-                  "cornerRadius": 999,
-                  "justifyContent": "center",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "fLIUW",
-                      "name": "userInitials",
-                      "fill": "#3B82F6",
-                      "content": "AK",
-                      "fontFamily": "Inter",
-                      "fontSize": 14,
-                      "fontWeight": "600"
-                    }
-                  ]
                 }
               ]
             }
