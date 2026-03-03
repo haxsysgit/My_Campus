@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { MapPin, Users, Shield, AlertTriangle, Clock, LogOut } from "lucide-react";
+import { MapPin, Users, Shield, AlertTriangle, Clock, User } from "lucide-react";
 import { useApp } from "@/context/AppContext";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -23,6 +23,7 @@ export default function Navbar() {
     { path: "/", label: "Dashboard", icon: Shield },
     { path: "/navigate", label: "Navigate", icon: MapPin },
     { path: "/classpulse", label: "ClassPulse", icon: Users },
+    { path: "/profile", label: "Profile", icon: User },
   ];
 
   return (
@@ -38,10 +39,10 @@ export default function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center font-display text-sm font-bold text-primary-foreground">
-            CG
+            MC
           </div>
           <span className="font-display text-sm font-bold text-foreground hidden sm:block">
-            CampusGuard
+            MyCampus
           </span>
         </Link>
 
@@ -83,21 +84,6 @@ export default function Navbar() {
             <AlertTriangle className="w-4 h-4" />
             <span className="hidden sm:inline">Emergency</span>
           </button>
-
-          {currentUser && (
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground hidden md:block">
-                {currentUser.name}
-              </span>
-              <button
-                onClick={() => { logout(); navigate("/login"); }}
-                className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted"
-                title="Logout"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </nav>

@@ -4,6 +4,9 @@ export interface Building {
   code: string;
   lat: number;
   lng: number;
+  // Pixel positions on campus-map.png (1024x683)
+  mapX: number;
+  mapY: number;
   rooms: string[];
   description: string;
 }
@@ -31,6 +34,8 @@ export const BUILDINGS: Record<string, Building> = {
     code: "R",
     lat: 51.58845,
     lng: -0.22862,
+    mapX: 485,
+    mapY: 175,
     rooms: ["R110", "R209", "RG08"],
     description: "Computer Science labs, lecture rooms",
   },
@@ -40,6 +45,8 @@ export const BUILDINGS: Record<string, Building> = {
     code: "H",
     lat: 51.58798,
     lng: -0.22901,
+    mapX: 230,
+    mapY: 310,
     rooms: ["H101", "H201"],
     description: "Main lecture building, seminar rooms",
   },
@@ -49,6 +56,8 @@ export const BUILDINGS: Record<string, Building> = {
     code: "C",
     lat: 51.58761,
     lng: -0.22985,
+    mapX: 365,
+    mapY: 320,
     rooms: ["CG01", "C101"],
     description: "Administration, faculty offices",
   },
@@ -58,6 +67,8 @@ export const BUILDINGS: Record<string, Building> = {
     code: "G",
     lat: 51.58712,
     lng: -0.23021,
+    mapX: 115,
+    mapY: 215,
     rooms: ["G101"],
     description: "Art, Design and Media",
   },
@@ -67,6 +78,8 @@ export const BUILDINGS: Record<string, Building> = {
     code: "L",
     lat: 51.58780,
     lng: -0.22845,
+    mapX: 475,
+    mapY: 265,
     rooms: ["L01"],
     description: "24/7 study spaces, 3 floors",
   },
@@ -76,6 +89,8 @@ export const BUILDINGS: Record<string, Building> = {
     code: "MDX",
     lat: 51.58901,
     lng: -0.22790,
+    mapX: 380,
+    mapY: 175,
     rooms: ["MDX01"],
     description: "Student Union, café, social spaces",
   },
@@ -85,6 +100,8 @@ export const BUILDINGS: Record<string, Building> = {
     code: "Q",
     lat: 51.58830,
     lng: -0.22920,
+    mapX: 365,
+    mapY: 365,
     rooms: [],
     description: "Central campus outdoor space",
   },
@@ -94,8 +111,21 @@ export const BUILDINGS: Record<string, Building> = {
     code: "F",
     lat: 51.58870,
     lng: -0.23050,
+    mapX: 195,
+    mapY: 455,
     rooms: [],
     description: "Business School",
+  },
+  williams: {
+    id: "williams",
+    name: "Williams Building",
+    code: "W",
+    lat: 51.58750,
+    lng: -0.22830,
+    mapX: 535,
+    mapY: 345,
+    rooms: [],
+    description: "Engineering and Science",
   },
 };
 
@@ -145,6 +175,10 @@ export const WALKING_GRAPH: Record<string, Record<string, WalkingEdge>> = {
   fenella: {
     college: { time: 3, safe: true },
     grove: { time: 2, safe: true },
+  },
+  williams: {
+    library: { time: 2, safe: true },
+    college: { time: 3, safe: true },
   },
 };
 

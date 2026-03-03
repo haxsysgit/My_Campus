@@ -125,10 +125,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="border-t border-border py-4 text-center text-xs text-muted-foreground">
-        CampusGuard Navigator · Middlesex University CS Hackathon 2026
-      </div>
     </motion.div>
   );
 }

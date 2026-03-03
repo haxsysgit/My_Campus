@@ -14,6 +14,7 @@ interface CurrentUser {
   email?: string;
   studentId?: string;
   courses?: string[];
+  visibility_level?: number;
 }
 
 interface RoomOccupancy {

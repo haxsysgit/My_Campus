@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { api } from "@/lib/api";
 import { useApp } from "@/context/AppContext";
@@ -96,6 +96,12 @@ export default function Login() {
                 <span className="font-mono">ak1234@live.mdx.ac.uk</span> / <span className="font-mono">demo123</span>
               </p>
             </div>
+            <p className="mt-4 text-center text-sm text-muted-foreground">
+              Don't have an account?{" "}
+              <Link to="/register" className="text-primary hover:underline font-medium">
+                Register
+              </Link>
+            </p>
           </CardContent>
         </Card>
       </motion.div>

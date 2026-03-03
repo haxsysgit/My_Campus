@@ -42,21 +42,6 @@ export default function Navigate() {
 
   const selectedBuildingData = selectedBuilding ? BUILDINGS[selectedBuilding] : null;
 
-  // SVG map coordinates (normalized from real lat/lng)
-  const mapBounds = {
-    minLat: 51.58700, maxLat: 51.58910,
-    minLng: -0.23060, maxLng: -0.22780,
-  };
-  const toSvg = (lat: number, lng: number): [number, number] => {
-    const x = ((lng - mapBounds.minLng) / (mapBounds.maxLng - mapBounds.minLng)) * 500;
-    const y = ((mapBounds.maxLat - lat) / (mapBounds.maxLat - mapBounds.minLat)) * 400;
-    return [x, y];
-  };
-
-  const routePath = routeResult
-    ? routeResult.path.map((id) => toSvg(BUILDINGS[id].lat, BUILDINGS[id].lng))
-    : [];
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -158,68 +143,78 @@ export default function Navigate() {
         )}
       </div>
 
-      {/* SVG Campus Map */}
-      <div className="flex-1 relative bg-secondary/50 flex items-center justify-center p-4">
-        <svg viewBox="0 0 500 400" className="w-full max-w-2xl h-auto">
-          {/* Grid lines */}
-          {[0, 100, 200, 300, 400, 500].map((x) => (
-            <line key={`gx${x}`} x1={x} y1={0} x2={x} y2={400} stroke="hsl(var(--border))" strokeWidth={0.5} opacity={0.3} />
-          ))}
-          {[0, 100, 200, 300, 400].map((y) => (
-            <line key={`gy${y}`} x1={0} y1={y} x2={500} y2={y} stroke="hsl(var(--border))" strokeWidth={0.5} opacity={0.3} />
-          ))}
+      {/* Campus Map with Image */}
+      <div className="flex-1 relative bg-secondary/50 flex items-center justify-center p-4 overflow-hidden">
+        <div className="relative w-full max-w-4xl">
+          <img 
+            src="/campus-map.png" 
+            alt="Middlesex University Hendon Campus" 
+            className="w-full h-auto rounded-lg shadow-lg"
+          />
+          
+          {/* SVG Overlay for markers and routes */}
+          <svg 
+            viewBox="0 0 1024 683" 
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            style={{ pointerEvents: 'none' }}
+          >
+            {/* Route line */}
+            {routeResult && routeResult.path.length > 1 && (
+              <polyline
+                points={routeResult.path.map((id) => `${BUILDINGS[id]?.mapX || 0},${BUILDINGS[id]?.mapY || 0}`).join(" ")}
+                fill="none"
+                stroke={safeMode ? "#22c55e" : "#3b82f6"}
+                strokeWidth={6}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeDasharray="12,8"
+                className="drop-shadow-lg"
+              />
+            )}
+          </svg>
 
-          {/* Route line */}
-          {routePath.length > 1 && (
-            <polyline
-              points={routePath.map(([x, y]) => `${x},${y}`).join(" ")}
-              fill="none"
-              stroke={safeMode ? "hsl(var(--accent))" : "hsl(var(--primary))"}
-              strokeWidth={3}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeDasharray="8,4"
-            />
-          )}
-
-          {/* Building markers */}
+          {/* Building markers as positioned buttons */}
           {buildingList.map((b) => {
-            const [x, y] = toSvg(b.lat, b.lng);
             const isBlocked = emergency.active && emergency.blockedBuilding === b.id;
             const isSelected = selectedBuilding === b.id;
             const isOnRoute = routeResult?.path.includes(b.id);
+            const isStart = routeResult?.path[0] === b.id;
+            const isEnd = routeResult?.path[routeResult.path.length - 1] === b.id;
+            
             return (
-              <g key={b.id} onClick={() => setSelectedBuilding(b.id)} className="cursor-pointer">
-                <circle
-                  cx={x} cy={y} r={isSelected ? 22 : 18}
-                  fill={isBlocked ? "hsl(var(--destructive))" : isSelected ? "hsl(var(--primary))" : "hsl(var(--card))"}
-                  stroke={isBlocked ? "hsl(var(--destructive))" : isOnRoute ? "hsl(var(--primary))" : "hsl(var(--border))"}
-                  strokeWidth={2}
-                  className="transition-all duration-200"
-                />
-                <text
-                  x={x} y={y + 1}
-                  textAnchor="middle" dominantBaseline="central"
-                  fill="hsl(var(--foreground))"
-                  fontSize={b.code.length > 2 ? 7 : 10}
-                  fontFamily="'Space Mono', monospace"
-                  fontWeight={700}
-                >
-                  {b.code}
-                </text>
-                <text
-                  x={x} y={y + 30}
-                  textAnchor="middle"
-                  fill="hsl(var(--muted-foreground))"
-                  fontSize={8}
-                  fontFamily="'DM Sans', sans-serif"
-                >
+              <button
+                key={b.id}
+                onClick={() => setSelectedBuilding(b.id)}
+                className={cn(
+                  "absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-0.5 transition-all z-10",
+                  isSelected && "scale-110"
+                )}
+                style={{
+                  left: `${(b.mapX / 1024) * 100}%`,
+                  top: `${(b.mapY / 683) * 100}%`,
+                }}
+              >
+                <div className={cn(
+                  "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-lg border-2 transition-all",
+                  isBlocked ? "bg-red-500 border-red-600 text-white" :
+                  isStart ? "bg-green-500 border-green-600 text-white" :
+                  isEnd ? "bg-blue-500 border-blue-600 text-white" :
+                  isOnRoute ? "bg-primary border-primary text-white" :
+                  isSelected ? "bg-primary border-primary text-white" :
+                  "bg-white border-gray-300 text-gray-800 hover:border-primary"
+                )}>
+                  {isStart ? "A" : isEnd ? "B" : b.code}
+                </div>
+                <span className={cn(
+                  "text-[10px] font-semibold px-1 py-0.5 rounded bg-white/90 shadow-sm whitespace-nowrap",
+                  isSelected ? "text-primary" : "text-gray-700"
+                )}>
                   {b.name.replace(" Building", "")}
-                </text>
-              </g>
+                </span>
+              </button>
             );
           })}
-        </svg>
+        </div>
       </div>
     </motion.div>
   );
