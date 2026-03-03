@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { BUILDINGS, ROOM_CAPACITIES } from "@/lib/campusData";
 import { findRoute } from "@/lib/pathfinding";
 import { useApp } from "@/context/AppContext";
-import OccupancyBar from "@/components/OccupancyBar";
-import { ArrowRight, Navigation, Shield, AlertTriangle, MapPin } from "lucide-react";
+import OccupancyBar, { getOccupancyStatus, OCCUPANCY_CONFIG } from "@/components/OccupancyBar";
+import { ArrowRight, Navigation, Shield, AlertTriangle, MapPin, X, Clock, Users, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Navigate() {
@@ -121,26 +121,88 @@ export default function Navigate() {
           </div>
         )}
 
-        {selectedBuildingData && (
-          <div className="space-y-3">
-            <h3 className="font-display text-sm font-bold text-foreground">{selectedBuildingData.name}</h3>
-            <p className="text-xs text-muted-foreground">{selectedBuildingData.description}</p>
-            {selectedBuildingData.rooms.length > 0 && (
-              <div className="space-y-2">
-                {selectedBuildingData.rooms.map((room) => {
-                  const occ = occupancy[room];
-                  if (!occ) return null;
-                  return (
-                    <div key={room} className="p-2 rounded bg-muted">
-                      <p className="text-xs font-medium text-foreground mb-1">{room}: {ROOM_CAPACITIES[room]?.buildingName}</p>
-                      <OccupancyBar count={occ.count} capacity={occ.capacity} />
-                    </div>
-                  );
-                })}
+        <AnimatePresence>
+          {selectedBuildingData && (
+            <motion.div
+              key={selectedBuildingData.id}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              className="space-y-3 border border-border rounded-lg p-4 bg-card"
+            >
+              {/* Header */}
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <h3 className="font-display text-sm font-bold text-foreground">{selectedBuildingData.name}</h3>
+                  <p className="text-xs text-muted-foreground mt-0.5">{selectedBuildingData.description}</p>
+                </div>
+                <button
+                  onClick={() => setSelectedBuilding(null)}
+                  className="p-1 rounded-md hover:bg-muted text-muted-foreground transition-colors shrink-0"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
               </div>
-            )}
-          </div>
-        )}
+
+              {/* Quick Actions */}
+              <div className="flex gap-2">
+                <button
+                  onClick={() => { setTo(selectedBuildingData.id); }}
+                  className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md bg-primary/10 text-primary text-xs font-semibold hover:bg-primary/20 transition-colors"
+                >
+                  <Navigation className="w-3 h-3" /> Navigate Here
+                </button>
+                <button
+                  onClick={() => { setFrom(selectedBuildingData.id); }}
+                  className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-md bg-muted text-foreground text-xs font-semibold hover:bg-muted/80 transition-colors"
+                >
+                  <MapPin className="w-3 h-3" /> Set as Start
+                </button>
+              </div>
+
+              {/* Rooms with occupancy */}
+              {selectedBuildingData.rooms.length > 0 ? (
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold text-foreground flex items-center gap-1">
+                    <Users className="w-3 h-3" /> Room Occupancy
+                  </p>
+                  {selectedBuildingData.rooms.map((room) => {
+                    const occ = occupancy[room];
+                    if (!occ) return null;
+                    const pct = Math.min((occ.count / occ.capacity) * 100, 100);
+                    const status = getOccupancyStatus(pct);
+                    const cfg = OCCUPANCY_CONFIG[status];
+                    return (
+                      <div key={room} className={cn("p-3 rounded-lg border", cfg.bg, "border-transparent")}>
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-xs font-semibold text-foreground">{room}</p>
+                          <span className={cn("text-[10px] font-bold px-1.5 py-0.5 rounded-full", cfg.bg, cfg.color, "border border-current/20")}>
+                            {cfg.label}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-muted-foreground mb-2">{ROOM_CAPACITIES[room]?.buildingName}</p>
+                        <OccupancyBar count={occ.count} capacity={occ.capacity} />
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 p-2 rounded-md bg-muted/50 text-xs text-muted-foreground">
+                  <Info className="w-3 h-3 shrink-0" />
+                  No tracked rooms in this building
+                </div>
+              )}
+
+              {/* Set route from here */}
+              <button
+                onClick={() => { setFrom(selectedBuildingData.id); setTo(""); setRouteResult(null); }}
+                className="w-full text-xs text-muted-foreground hover:text-foreground py-1 transition-colors"
+              >
+                Use in route planner ↑
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Campus Map with Image */}
@@ -180,14 +242,24 @@ export default function Navigate() {
             const isOnRoute = routeResult?.path.includes(b.id);
             const isStart = routeResult?.path[0] === b.id;
             const isEnd = routeResult?.path[routeResult.path.length - 1] === b.id;
-            
+
+            // Compute worst-case occupancy for this building's rooms
+            const worstPct = b.rooms.length > 0
+              ? Math.max(...b.rooms.map((r) => {
+                  const o = occupancy[r];
+                  return o ? (o.count / o.capacity) * 100 : 0;
+                }))
+              : -1;
+            const occStatus = worstPct >= 0 ? getOccupancyStatus(worstPct) : null;
+            const occCfg = occStatus ? OCCUPANCY_CONFIG[occStatus] : null;
+
             return (
               <button
                 key={b.id}
-                onClick={() => setSelectedBuilding(b.id)}
+                onClick={() => setSelectedBuilding(isSelected ? null : b.id)}
                 className={cn(
-                  "absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-0.5 transition-all z-10",
-                  isSelected && "scale-110"
+                  "absolute transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-0.5 transition-all z-10 group",
+                  isSelected && "scale-125 z-20"
                 )}
                 style={{
                   left: `${(b.mapX / 1024) * 100}%`,
@@ -196,21 +268,46 @@ export default function Navigate() {
               >
                 <div className={cn(
                   "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-lg border-2 transition-all",
-                  isBlocked ? "bg-red-500 border-red-600 text-white" :
-                  isStart ? "bg-green-500 border-green-600 text-white" :
-                  isEnd ? "bg-blue-500 border-blue-600 text-white" :
-                  isOnRoute ? "bg-primary border-primary text-white" :
-                  isSelected ? "bg-primary border-primary text-white" :
-                  "bg-white border-gray-300 text-gray-800 hover:border-primary"
+                  isBlocked ? "bg-red-500 border-red-700 text-white animate-pulse" :
+                  isStart  ? "bg-emerald-500 border-emerald-700 text-white" :
+                  isEnd    ? "bg-blue-500 border-blue-700 text-white" :
+                  isOnRoute ? "bg-primary border-primary/80 text-white" :
+                  isSelected ? "bg-primary border-primary text-white ring-2 ring-primary/30 ring-offset-1" :
+                  occStatus === "overcrowded" ? "bg-red-100 border-red-400 text-red-700" :
+                  occStatus === "busy"        ? "bg-orange-100 border-orange-400 text-orange-700" :
+                  occStatus === "filling"     ? "bg-yellow-100 border-yellow-400 text-yellow-700" :
+                  occStatus === "available"   ? "bg-emerald-100 border-emerald-400 text-emerald-700" :
+                  "bg-white border-gray-300 text-gray-800 hover:border-primary hover:scale-110"
                 )}>
                   {isStart ? "A" : isEnd ? "B" : b.code}
                 </div>
+
+                {/* Status dot for rooms */}
+                {occCfg && !isOnRoute && !isBlocked && (
+                  <span className={cn(
+                    "absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border border-white",
+                    occCfg.barColor
+                  )} />
+                )}
+
                 <span className={cn(
-                  "text-[10px] font-semibold px-1 py-0.5 rounded bg-white/90 shadow-sm whitespace-nowrap",
-                  isSelected ? "text-primary" : "text-gray-700"
+                  "text-[10px] font-semibold px-1 py-0.5 rounded shadow-sm whitespace-nowrap transition-all",
+                  isSelected ? "bg-primary text-primary-foreground" :
+                  isBlocked  ? "bg-red-100 text-red-700" :
+                  "bg-white/95 text-gray-700 group-hover:bg-primary/10 group-hover:text-primary"
                 )}>
                   {b.name.replace(" Building", "")}
                 </span>
+
+                {/* Occupancy label on hover */}
+                {occCfg && (
+                  <span className={cn(
+                    "absolute -bottom-5 text-[9px] font-bold px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap",
+                    occCfg.color, "bg-white/95 shadow-sm"
+                  )}>
+                    {occCfg.label}
+                  </span>
+                )}
               </button>
             );
           })}

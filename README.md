@@ -2,64 +2,79 @@
 
 > **Navigate. Connect. Stay Safe.**
 
-A Progressive Web App for Middlesex University students combining campus navigation, smart attendance (ClassPulse), and safety features.
+A smart campus companion for Middlesex University students — combining interactive campus navigation, social attendance tracking (ClassPulse), real-time room occupancy monitoring, and campus safety features.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Status](https://img.shields.io/badge/status-hackathon-orange.svg)
+![Hackathon](https://img.shields.io/badge/Middlesex%20Hackathon-2026-blue.svg)
+![Status](https://img.shields.io/badge/status-live%20demo-brightgreen.svg)
 
 ## 🚀 Features
 
-### 🗺️ Navigation
-- Interactive campus map with all buildings
-- Fastest & safest route options
-- Real-time building search
+### 🗺️ Interactive Campus Map
+- Full Middlesex Hendon campus map (10 buildings + Ravensfield)
+- Click any building to see room occupancy, description, and quick navigation
+- **Occupancy-coded markers**: green (Available) → yellow (Filling Up) → orange (Mildly Crowded) → red (Overcrowded)
+- Hover a building to see live status label
+- Fastest & safest route planner with walking time
+- Route visualised on map as animated path
+- Safety mode avoids unlit paths
 
-### 👥 ClassPulse (Social)
-- See today's classes with live attendance
-- QR code check-in (replaces manual roll call)
-- View classmates' locations (opt-in)
-- Friend system with location sharing
+### 👥 ClassPulse — Smart Attendance
+- Today's classes at a glance with live headcount
+- QR code check-in (one scan = marked present)
+- Manual check-in fallback
+- **Classroom seat map** — visual grid showing who is sitting where
+- Classmates list with student IDs (e.g. M01081164)
+- Privacy-controlled visibility (Anonymous / Class Visible / Friends Visible)
+
+### 🪑 Room Occupancy Monitor
+- Real-time seat availability per room
+- Status labels: Empty · Available · Filling Up · Mildly Crowded · Overcrowded
+- Helps students find quiet spaces before commuting to a building
 
 ### 🛡️ Safety
-- Emergency panic button (alerts security with GPS)
-- Night-safe route suggestions
-- Share live location with friends
-- Building occupancy info
+- Emergency panic button in navbar — alerts security with location
+- Safe route mode avoids unlit/unsafe paths
+- Emergency building lock-down mode on map
+- User profile with school ID verification
 
 ## 🏗️ Tech Stack
 
 | Layer | Technology |
 |-------|------------|
-| **Frontend** | Next.js 14, TailwindCSS, Leaflet.js |
-| **Backend** | FastAPI, SQLAlchemy, SQLite |
-| **Auth** | JWT (python-jose) |
-| **Platform** | PWA (installable on mobile) |
+| **Frontend** | React 18 + TypeScript, TailwindCSS, shadcn/ui, Framer Motion |
+| **Backend** | FastAPI, SQLAlchemy, SQLite → PostgreSQL ready |
+| **Auth** | JWT (python-jose), bcrypt |
+| **Icons** | Lucide React |
+| **QR** | qrcode (generation), html5-qrcode (scanning) |
 
 ## 📁 Project Structure
 
 ```
-My_Campus/
+hackathon3326/
 ├── backend/                 # FastAPI server
 │   ├── app/
-│   │   ├── main.py          # Entry point
+│   │   ├── main.py          # Entry point + CORS
 │   │   ├── config.py        # Settings
-│   │   ├── database.py      # DB connection
-│   │   ├── models/          # SQLAlchemy models
-│   │   ├── schemas/         # Pydantic schemas
-│   │   ├── routers/         # API routes
-│   │   └── services/        # Business logic
-│   ├── requirements.txt
-│   └── seed_data.py         # Demo data
+│   │   ├── database.py      # SQLAlchemy session
+│   │   ├── models/          # User, Class, Checkin, Enrollment…
+│   │   ├── schemas/         # Pydantic request/response schemas
+│   │   └── routers/         # auth, classes, checkin, location, emergency
+│   └── seed_data.py         # Demo data seeder
 │
-├── frontend/                # Next.js PWA
-│   ├── app/                 # App Router pages
-│   ├── components/          # React components
-│   ├── lib/                 # API client, utils
-│   └── public/              # Static assets
+├── frontend/                # React + Vite SPA
+│   ├── src/
+│   │   ├── pages/           # Navigate, ClassPulse, ClassDetail, Profile…
+│   │   ├── components/      # Navbar, OccupancyBar, HeadcountRing…
+│   │   ├── context/         # AppContext (global state)
+│   │   └── lib/             # api.ts, campusData.ts, pathfinding.ts
+│   └── public/              # campus-map.png, logo.svg
 │
-├── IMPLEMENTATION.md        # Technical specs
-├── HACKATHON_DECISION.md    # Project decisions
-└── hackathon.pen            # UI designs
+├── DEPLOY.md                # Deployment guide
+├── PRESENTATION.md          # Pitch script & demo guide
+├── GRADING.md               # Self-assessment rubric
+├── HACKATHON_DECISION.md    # Design decisions log
+└── hackathon.pen            # Pencil UI designs
 ```
 
 ## 🚀 Quick Start
@@ -89,7 +104,7 @@ npm install
 npm run dev
 ```
 
-App available at: http://localhost:3000
+App available at: http://localhost:8080
 
 ## 🔑 Demo Credentials
 
@@ -102,17 +117,24 @@ App available at: http://localhost:3000
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/auth/login` | Login |
-| GET | `/api/classes/today` | Today's classes |
-| POST | `/api/checkin/qr` | QR check-in |
+| POST | `/api/auth/login` | Login with university email |
+| POST | `/api/auth/register` | Register new account |
+| GET | `/api/auth/me` | Get current user profile |
+| GET | `/api/classes/today` | Today's enrolled classes |
+| GET | `/api/classes/{id}` | Class detail + checked-in students |
+| POST | `/api/checkin/qr` | QR or manual check-in |
+| GET | `/api/checkin/status/{id}` | Check-in status for a class |
 | GET | `/api/location/friends` | Friends' locations |
+| POST | `/api/location/update` | Update own location |
 | POST | `/api/emergency/alert` | Send emergency alert |
 
-See full API docs at `/docs` when backend is running.
+Full interactive docs at `http://localhost:8000/docs`
 
 ## 👥 Team
 
-Built for the Middlesex University Hackathon 2024.
+Built for the **Middlesex University Hackathon 2026**.
+
+*Navigate. Connect. Stay Safe.*
 
 ## 📄 License
 

@@ -21,7 +21,38 @@
 - Quick navigation to key features
 - Real-time campus status"
 
-### 2. ClassPulse - Smart Attendance (90s)
+### 2. Navigate & Occupancy Monitor (90s)
+*Navigate to the Navigate page*
+
+"Our campus map has **live occupancy intelligence** built in."
+
+*Point to the building markers*
+
+"Every building marker is colour-coded in real time:
+- 🟢 **Green** = Available — plenty of seats
+- 🟡 **Yellow** = Filling Up — seats going fast  
+- 🟠 **Orange** = Mildly Crowded — limited space
+- 🔴 **Red** = Overcrowded — find another room
+
+*Hover over Ritterman Building*
+
+"Hover any building and you see the exact status label pop up."
+
+*Click on Ritterman Building*
+
+"Click to open the full detail panel — shows each room with the occupancy bar, exact seat count, and a **status badge**."
+
+*Click 'Navigate Here'*
+
+"One click auto-populates the route destination. Hit Find Route and the walking path appears right on the map. Students can toggle Safety Mode to avoid unlit paths."
+
+*Dismiss the panel*
+
+"This saves students the frustration of walking across campus only to find a full room."
+
+---
+
+### 3. ClassPulse — Smart Attendance (90s)
 *Navigate to ClassPulse*
 
 "This is ClassPulse—our social attendance system."
@@ -37,35 +68,28 @@
 
 The classroom layout shows available seats in real-time, helping students find spots quickly."
 
-### 3. Navigate - Smart Campus Map (60s)
-*Navigate to Navigate page*
+### 4. Classroom Seat Map (45s)
+*Inside a class detail from ClassPulse*
 
-"Our campus map shows all Middlesex buildings with:
-- Real-time building markers
-- Room occupancy levels
-- Optimized walking routes
+"Once checked in, the seat map shows exactly who is in the room and where. Each square is a seat — blue is you, teal is a classmate. Empty seats are clear. Students plan where to sit before they even walk in."
 
-Students can tap any building to see room availability and get directions."
-
-### 4. Profile & Privacy (30s)
+### 5. Profile & Privacy (30s)
 *Navigate to Profile*
 
-"Privacy is key. Students control their visibility:
-- **Anonymous**: Location hidden from everyone
-- **Class Visible**: Classmates can see you
-- **Friends Visible**: Only friends see your location
+"Privacy is key. Each student sees their university email and student ID. They set one of three visibility levels — Anonymous hides them completely, Class Visible lets classmates see them, Friends Visible shares with friends only."
 
-Student ID and university email are displayed for verification."
+---
 
-### 5. Safety Features (30s)
+### 6. Safety Features (30s)
 *Show emergency button in navbar*
 
 "Safety is built-in. The emergency button instantly:
-- Alerts campus security
-- Shares your location
-- Notifies nearby friends"
+- Alerts campus security with your GPS location
+- Notifies nearby friends
+- Marks the affected building on the map in red"
 
 ### Closing (30s)
+*(Return to the map — all buildings visible with colour-coded status)*
 "MyCampus combines navigation, attendance, and social features into one intuitive app—designed specifically for Middlesex University students."
 
 ---
