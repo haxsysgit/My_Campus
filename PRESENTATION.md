@@ -1,290 +1,240 @@
-# MyCampus - Pitch & Presentation Guide
-
-## 🎯 Elevator Pitch (30 seconds)
-
-> "MyCampus is a smart campus companion that helps Middlesex students navigate buildings, track class attendance in real-time, and stay connected with classmates—all while keeping the campus safe. Think Google Maps meets social attendance. One scan, you're checked in. One tap, you know where your friends are studying."
+# MyCampus — Presentation Guide
+### Middlesex University Hackathon 2026
 
 ---
 
-## 🎬 Demo Script (5 minutes)
+## ⚡ QUICK-FIRE CHEAT SHEET
+> Print this. Glance at it before you go up. These are the things you MUST say.
 
-### Opening (30s)
-*Start on login screen*
-
-"Welcome to MyCampus. Let me show you how we're transforming the Middlesex University experience."
-
-*Login with demo credentials*
-
-### 1. Dashboard Overview (30s)
-"After logging in, students see their personalized dashboard with:
-- Today's classes at a glance
-- Quick navigation to key features
-- Real-time campus status"
-
-### 2. Navigate & Occupancy Monitor (90s)
-*Navigate to the Navigate page*
-
-"Our campus map has **live occupancy intelligence** built in."
-
-*Point to the building markers*
-
-"Every building marker is colour-coded in real time:
-- 🟢 **Green** = Available — plenty of seats
-- 🟡 **Yellow** = Filling Up — seats going fast  
-- 🟠 **Orange** = Mildly Crowded — limited space
-- 🔴 **Red** = Overcrowded — find another room
-
-*Hover over Ritterman Building*
-
-"Hover any building and you see the exact status label pop up."
-
-*Click on Ritterman Building*
-
-"Click to open the full detail panel — shows each room with the occupancy bar, exact seat count, and a **status badge**."
-
-*Click 'Navigate Here'*
-
-"One click auto-populates the route destination. Hit Find Route and the walking path appears right on the map. Students can toggle Safety Mode to avoid unlit paths."
-
-*Dismiss the panel*
-
-"This saves students the frustration of walking across campus only to find a full room."
+- **"We've all been there"** — open with a relatable story (full room, wrong building)
+- **The app is LIVE** — real backend, real login, real data. Not a prototype.
+- **Colour-coded map** — green = fine, red = stay away, it's that simple
+- **One scan = checked in** — no more paper registers
+- **Book your seat before you leave your bedroom**
+- **The map on the dashboard tells you where to be and when**
+- **Privacy is 100% in YOUR hands** — nobody sees you unless you say so
+- **Panic button** — one tap, security knows exactly where you are
+- **Ritterman = lectures. Ravensfield = student housing** — different shapes on map so you never mix them up
+- **This can scale to every MDX campus worldwide** — London, Dubai, Malta, Mauritius
+- **We built this in one hackathon** — imagine what a full team could do
 
 ---
 
-### 3. ClassPulse — Smart Attendance (90s)
-*Navigate to ClassPulse*
+## 🎯 The 30-Second Pitch
+*Say this if someone asks "so what is it?" in the hallway.*
 
-"This is ClassPulse—our social attendance system."
-
-*Click on a class*
-
-"Students can see:
-- **Live headcount**: How many classmates are already there
-- **Classroom seat map**: Visual representation of who's sitting where
-- **QR check-in**: One scan and you're marked present
-
-*Demo the manual check-in*
-
-The classroom layout shows available seats in real-time, helping students find spots quickly."
-
-### 4. Classroom Seat Map (45s)
-*Inside a class detail from ClassPulse*
-
-"Once checked in, the seat map shows exactly who is in the room and where. Each square is a seat — blue is you, teal is a classmate. Empty seats are clear. Students plan where to sit before they even walk in."
-
-### 5. Profile & Privacy (30s)
-*Navigate to Profile*
-
-"Privacy is key. Each student sees their university email and student ID. They set one of three visibility levels — Anonymous hides them completely, Class Visible lets classmates see them, Friends Visible shares with friends only."
+> "You know that feeling when you walk all the way to a lecture room and it's completely packed — or you realise you went to the wrong building? MyCampus fixes that. It's a campus app built specifically for Middlesex students. You open it, you can see which buildings are full before you even leave your seat, check in to class with a QR scan, book a seat in advance, and hit a panic button if you ever feel unsafe. It's Google Maps, student attendance, and a campus safety system — all in one."
 
 ---
 
-### 6. Safety Features (30s)
-*Show emergency button in navbar*
+## 🎬 Full Demo Script (5–7 minutes)
 
-"Safety is built-in. The emergency button instantly:
-- Alerts campus security with your GPS location
-- Notifies nearby friends
-- Marks the affected building on the map in red"
-
-### Closing (30s)
-*(Return to the map — all buildings visible with colour-coded status)*
-"MyCampus combines navigation, attendance, and social features into one intuitive app—designed specifically for Middlesex University students."
+### BEFORE YOU START
+- Make sure the app is open at: `http://localhost:8080`
+- Backend must be running: `cd backend && uv run uvicorn app.main:app --port 8000`
+- Login credentials ready: `ak1234@live.mdx.ac.uk` / `demo123`
+- Seed the DB if needed: `uv run python seed_data.py`
 
 ---
 
-## 📊 Key Selling Points
+### OPENING — Set the Scene (30 seconds)
+*Standing at login screen. Look at the audience, not the screen.*
 
-### For Students
-| Pain Point | MyCampus Solution |
-|------------|-------------------|
-| "Where's my next class?" | Smart map with building directions |
-| "Is anyone there yet?" | Live headcount before you arrive |
-| "Where should I sit?" | Real-time seat map |
-| "Did I check in?" | QR scan or manual check-in |
-| "Where are my friends?" | Privacy-controlled location sharing |
+"Raise your hand if you've ever walked to a lecture room, got there, and it was already completely full."
 
-### For University Administration
-| Challenge | MyCampus Benefit |
-|-----------|------------------|
-| Low attendance tracking | Automated QR check-in system |
-| Classroom utilization | Real-time occupancy data |
-| Student engagement | Social features increase app usage |
-| Campus safety | Emergency alert system |
-| Data insights | Analytics on building usage |
+*Pause. Let people react.*
+
+"Or ended up at the wrong building — walked to Hatchcroft when you were supposed to be in Ritterman?"
+
+*Pause.*
+
+"Yeah. We've all done it. And honestly it's embarrassing and it wastes time. So we built MyCampus — a smart companion app designed specifically for MDX students. Let me show you."
+
+*Log in with `ak1234@live.mdx.ac.uk` / `demo123`*
 
 ---
 
-## 📈 Scalability
+### STEP 1 — The Dashboard (45 seconds)
+*You're now on the Dashboard.*
 
-### Phase 1: Middlesex Hendon Campus (Current)
-- 7 buildings mapped
-- 5 demo classes
-- Core features functional
+"The first thing you see after logging in is your personal dashboard. It greets you by name, shows today's date, and straight away tells you what your next class is and where it is."
 
-### Phase 2: Full Middlesex Rollout
-- All Middlesex campuses (London, Dubai, Malta, Mauritius)
-- Integration with UniHub/Moodle
-- Push notifications
-- Official timetable sync
+*Point to the mini campus map in the middle of the dashboard.*
 
-### Phase 3: Multi-University Platform
-- White-label solution for other universities
-- Customizable branding
-- Tenant-based architecture
-- SaaS revenue model
+"But here's what's different — there's a **live campus map right here on the dashboard**. Every building has a colour dot. Green means the room's got space, yellow means it's filling up, orange means it's getting cramped, red means it's overcrowded. You know what you're walking into before you even put your shoes on."
 
-### Technical Scalability
-```
-Current: SQLite (demo)
-    ↓
-Production: PostgreSQL
-    ↓
-Scale: PostgreSQL + Redis cache
-    ↓
-Enterprise: Kubernetes + microservices
-```
+*Point to the timetable list next to the map.*
 
-**Capacity Estimates:**
-- Current demo: 100 concurrent users
-- PostgreSQL: 10,000 concurrent users
-- With Redis: 100,000 concurrent users
-- K8s cluster: 1M+ concurrent users
+"And your full timetable for the day is right there next to it. 9am in Ritterman, 11am in College Building, 2pm library. Tap any class and it takes you straight to the room detail. Tap the map icon and it navigates you there."
 
 ---
 
-## 💰 Business Model (For University Adoption)
+### STEP 2 — The Campus Map (90 seconds)
+*Click Navigate in the navbar.*
 
-### Option 1: University License
-- Annual license fee per campus
-- Includes: hosting, support, updates
-- Pricing: £5,000-15,000/year per campus
+"Now let's look at the full Navigate page. This is the actual Middlesex Hendon campus — not a generic map, this is OUR campus."
 
-### Option 2: Per-Student Model
-- £2-5 per active student/year
-- Scales with enrollment
-- Lower barrier to entry
+*Point to the building markers.*
 
-### Option 3: Freemium + Premium
-- Basic features free
-- Premium: advanced analytics, custom integrations
-- Revenue from data insights (anonymized)
+"Every building has a marker. Academic buildings like Ritterman, College Building, the Library — they have **round markers**. You'll notice Ritterman is labelled R. The colours change based on how full the rooms inside are right now."
 
----
+*Point to Ravensfield specifically.*
 
-## 🔧 Technical Architecture
+"Now — Ravensfield. That's student accommodation, not a lecture building. It has a **square purple marker** with a little H badge, so students don't accidentally try to navigate there for a lecture. Small thing, but when you're late and panicking, it matters."
 
-```
-┌─────────────────────────────────────────────┐
-│                  Frontend                    │
-│  React + TypeScript + TailwindCSS + shadcn  │
-└─────────────────┬───────────────────────────┘
-                  │ REST API
-┌─────────────────▼───────────────────────────┐
-│                  Backend                     │
-│        FastAPI + SQLAlchemy + JWT           │
-└─────────────────┬───────────────────────────┘
-                  │
-┌─────────────────▼───────────────────────────┐
-│                 Database                     │
-│     SQLite (demo) → PostgreSQL (prod)       │
-└─────────────────────────────────────────────┘
-```
+*Hover over Ritterman.*
 
-### Tech Stack Justification
-| Technology | Why |
-|------------|-----|
-| **React** | Industry standard, component reusability |
-| **TypeScript** | Type safety, fewer runtime errors |
-| **FastAPI** | Fast, async Python, auto-documentation |
-| **TailwindCSS** | Rapid UI development, consistent design |
-| **SQLite→PostgreSQL** | Easy demo, production-ready path |
+"Hover over any building — see that label popping up? That's the occupancy status. Mildly Crowded. Filling Up. Overcrowded. Plain English."
+
+*Click on Ritterman to open the detail panel.*
+
+"Click a building and this panel slides in from the side. You can see every room inside it, how many seats are taken, and a colour bar showing how full it is. No guessing."
+
+*Click 'Navigate Here'.*
+
+"Hit Navigate Here and the route appears on the map. The app calculates the fastest walking path between any two buildings. There's also a Safety Mode that avoids dark or less-used paths — useful at night."
 
 ---
 
-## 🏆 Competitive Advantages
+### STEP 3 — ClassPulse & Checking In (90 seconds)
+*Click ClassPulse in the navbar.*
 
-1. **Purpose-Built**: Designed specifically for universities, not adapted from generic apps
-2. **Privacy-First**: Granular visibility controls unlike Facebook/WhatsApp
-3. **Integrated Experience**: Navigation + Attendance + Social in one app
-4. **Low Friction**: QR scan or one-tap check-in
-5. **Real-Time**: Live headcount and seat availability
+"This is ClassPulse — our answer to the paper register."
 
-### vs Existing Solutions
-| Feature | MyCampus | Google Maps | WhatsApp | UniHub |
-|---------|----------|-------------|----------|--------|
-| Campus navigation | ✅ | ❌ Indoor | ❌ | ❌ |
-| Class attendance | ✅ | ❌ | ❌ | Manual |
-| Live headcount | ✅ | ❌ | ❌ | ❌ |
-| Seat map | ✅ | ❌ | ❌ | ❌ |
-| Friend locations | ✅ | ❌ | ❌ | ❌ |
-| Privacy controls | ✅ | Limited | Limited | N/A |
+*Point to today's classes.*
 
----
+"Every class you're enrolled in shows up here. You can see how many students are already checked in — before you've even arrived. That's useful. If your mates are already there, you know it's the right room."
 
-## ❓ Anticipated Questions & Answers
+*Click on a class.*
 
-**Q: How do you prevent fake check-ins?**
-> QR codes are time-limited and location-verified. Future: Bluetooth beacons for proximity validation.
+"Inside the class, you get a full picture. Headcount ring at the top — let's say 12 out of 30 checked in. Underneath that, a **seat map** of the actual room. Blue square is you, teal squares are classmates who've already taken seats."
 
-**Q: What about students who don't want to share location?**
-> Full control via privacy settings. "Anonymous" mode hides all location data.
+*Point to an empty seat.*
 
-**Q: How does this integrate with existing university systems?**
-> API-first design. Can integrate with Moodle, UniHub, student databases via standard APIs.
+"Empty grey squares? Tap one. You can **book that seat in advance**. A little modal pops up confirming the row and seat number. Confirm it and it turns green with a tick. That seat is held for you."
 
-**Q: What's the data retention policy?**
-> Location data: 24 hours. Check-in history: semester. All GDPR compliant.
+"No more arriving late and standing by the door. You claim your seat from home."
 
-**Q: How do you handle offline scenarios?**
-> PWA support planned. Offline check-in with sync when connected.
+*Show the check-in button.*
+
+"To check in, you either scan the QR code the lecturer puts up — one scan, done — or you hit the manual check-in button if the camera doesn't cooperate. Attendance logged. No paper. No calling names out."
 
 ---
 
-## 🎨 Design Principles
+### STEP 4 — Profile & Privacy (30 seconds)
+*Click Profile.*
 
-1. **Mobile-First**: Designed for phones, works on desktop
-2. **Accessibility**: High contrast, screen reader support
-3. **Speed**: Sub-second load times
-4. **Familiar**: Standard navigation patterns
-5. **Delightful**: Smooth animations, clear feedback
+"Every student has a profile. Name, university email, student ID — M-number. This is verified against your actual MDX credentials."
 
----
+*Point to the visibility toggle.*
 
-## 📱 Future Features Roadmap
+"More importantly — **privacy**. Three settings:
+- **Anonymous**: You're invisible. Nobody knows you're there.
+- **Class Visible**: Only students in your same class can see you.
+- **Friends Visible**: Only people you've added as friends.
 
-### Q2 2026
-- [ ] Push notifications
-- [ ] Offline support (PWA)
-- [ ] Calendar integration
-
-### Q3 2026
-- [ ] AR navigation (point phone, see directions)
-- [ ] Study group formation
-- [ ] Lecturer dashboard
-
-### Q4 2026
-- [ ] Multi-campus support
-- [ ] Analytics dashboard for admin
-- [ ] API for third-party integrations
+You choose. The app never shares your location without your permission. Full stop. GDPR compliant."
 
 ---
 
-## 🙏 Call to Action
+### STEP 5 — The Panic Button (20 seconds)
+*Point to the red emergency button in the top navbar.*
 
-> "MyCampus isn't just an app—it's the foundation for a smarter, safer, more connected campus experience. We're ready to pilot at Middlesex University. Let's make campus life better, together."
+"Last thing — and hopefully you never need it. That red button in the top bar. Hit it and within seconds, campus security gets an alert with your exact GPS location. The building you're near gets flagged on the map. Your nearby friends get notified too."
 
-**Next Steps:**
-1. Pilot program with 100 students (1 month)
-2. Gather feedback, iterate
-3. Full rollout for Semester 2
+"We take student safety seriously. That's not an afterthought — it's built into the main navigation."
 
 ---
 
-## Team
+### CLOSING — Leave Them Thinking (30 seconds)
+*Step back. Look at the room.*
 
-**MyCampus** - Built at Middlesex University Hackathon 2026
+"We built this in a single hackathon weekend. It's not a mockup — it's a working app with a real backend, a real database, real login and real QR check-in."
+
+"Now imagine this with the full MDX timetable synced in, push notifications before your next lecture, and rolled out across every campus — London, Dubai, Malta, Mauritius."
+
+"MyCampus is the campus app MDX students actually need. We're ready to pilot it. Let's make it happen."
+
+---
+
+## 📋 IMPORTANT POINTS TO HIT — QUICK LIST
+*Tick these off mentally as you go through the demo.*
+
+- [ ] Open with a relatable problem — wrong building, full room
+- [ ] Show the dashboard map FIRST — it's the wow moment
+- [ ] Say "this is our actual campus, not a generic map"
+- [ ] Explain the colour system in plain English (green = fine, red = avoid)
+- [ ] Point out Ravensfield square purple = housing, round = academic — no confusion
+- [ ] Show the building detail panel sliding in — looks polished
+- [ ] Demonstrate seat booking — tap empty seat, modal, confirm, green tick
+- [ ] Show ClassPulse headcount ring — "you know before you arrive"
+- [ ] Say "one QR scan, you're marked present" — replace paper registers
+- [ ] Mention privacy controls — "nobody sees you unless you allow it"
+- [ ] Hit the panic button topic — don't skip it, judges love the safety angle
+- [ ] End with "built in one weekend — imagine with a full team"
+- [ ] Mention scalability: other MDX campuses, then other universities
+
+---
+
+## ❓ Questions You'll Probably Get — Plain English Answers
+
+**"Can't students just fake check-in for each other?"**
+> The QR code is unique to each class session and changes. In the future we add Bluetooth proximity — your phone has to physically be in the room. For now it's the same as any university system but faster.
+
+**"What if I don't want people to know where I am?"**
+> Set it to Anonymous. Done. Nobody sees you, not even the app dashboard. Your location is never stored for more than 24 hours anyway.
+
+**"How is this different from just texting your mates?"**
+> It's structured and campus-specific. You don't need to ask "are you in yet?" — you open the app and see 12 people already there. And you don't have to share your personal number with 200 classmates.
+
+**"What about lecturers — do they benefit?"**
+> Yes. They'd see live attendance on their end. No more counting hands. Instant data on who showed up. That's the lecturer dashboard feature on the roadmap.
+
+**"Is this just for MDX?"**
+> Right now yes, it's built around Hendon campus. But the whole system is designed to be white-labelled — any university gets their own branded version. That's the commercial opportunity.
+
+**"How do you make money from this?"**
+> University pays a licence fee — roughly £5–15k a year per campus. For MDX with 4 global campuses that's £20–60k a year from one client. Scale to 20 universities and it's a proper SaaS business.
+
+---
+
+## 📈 Scalability — Say It Simply
+
+Don't say "microservices" or "Kubernetes" to a non-technical audience. Instead say:
+
+> "Right now we're running a demo database — think of it like a test environment. To go live with the whole of MDX, we switch to a proper database setup that can handle tens of thousands of students at once. The code is already written for it — it's just a config change. To go global, we add caching layers and scale horizontally. The architecture was designed with this in mind from day one."
+
+**The honest scaling roadmap:**
+1. **Today** — Demo running, supports ~100 users
+2. **Pilot (1 month)** — Swap SQLite → PostgreSQL, handle full MDX Hendon (4,000 students)
+3. **Full MDX** — All campuses, Moodle timetable sync, push notifications (~20,000 students)
+4. **Commercial** — Multi-tenant, other universities, white-label branding
+
+---
+
+## 🏆 Why We Win
+
+| What we built | Why it matters |
+|---------------|----------------|
+| Live occupancy map | Students stop wasting time walking to full rooms |
+| QR check-in | Lecturers get instant attendance without paper |
+| Seat booking | Students know where they're sitting before they arrive |
+| Dashboard timetable map | One screen tells you everything about your day |
+| Privacy controls | Students actually trust it and use it |
+| Panic button | University takes student safety seriously |
+| Ritterman vs Ravensfield markers | Tiny detail that shows we thought about real student pain |
+
+---
+
+## 🔑 Demo Login Credentials
+
+| Email | Password | Who |
+|-------|----------|-----|
+| `ak1234@live.mdx.ac.uk` | `demo123` | Alex Kumar (you) |
+| `sj5678@live.mdx.ac.uk` | `demo123` | Sarah Johnson |
+
+---
 
 *Navigate. Connect. Stay Safe.*
+*Built at Middlesex University Hackathon 2026*
 
