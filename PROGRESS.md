@@ -84,8 +84,9 @@
 ## 🧪 Test Commands
 
 ```bash
-# Backend
-cd backend && uvicorn app.main:app --reload
+# Backend (uv manages everything)
+cd backend
+uv run fastapi dev app/main.py
 
 # Frontend
 cd frontend && npm run dev

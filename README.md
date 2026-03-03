@@ -73,11 +73,9 @@ My_Campus/
 
 ```bash
 cd backend
-uv venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-uv pip install -r requirements.txt
-python seed_data.py       # Load demo data
-uvicorn app.main:app --reload
+uv sync                      # Install all deps
+uv run python seed_data.py   # Load demo data
+uv run fastapi dev app/main.py
 ```
 
 API available at: http://localhost:8000  
