@@ -19,6 +19,7 @@ class UserLogin(BaseModel):
 
 class UserResponse(UserBase):
     id: str
+    student_id: Optional[str] = None
     visibility_level: int
     created_at: Optional[datetime] = None
     

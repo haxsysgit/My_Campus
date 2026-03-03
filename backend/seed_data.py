@@ -34,13 +34,13 @@ def seed():
         if not existing:
             db.add(Building(**b))
     
-    # Demo users
+    # Demo users with student IDs
     users = [
-        {"id": "user1", "email": "ak1234@live.mdx.ac.uk", "name": "Alex Kumar", "visibility_level": 2},
-        {"id": "user2", "email": "sj5678@live.mdx.ac.uk", "name": "Sarah Johnson", "visibility_level": 3},
-        {"id": "user3", "email": "mp9012@live.mdx.ac.uk", "name": "Mike Patel", "visibility_level": 2},
-        {"id": "user4", "email": "jd3456@live.mdx.ac.uk", "name": "Jane Doe", "visibility_level": 3},
-        {"id": "user5", "email": "rk7890@live.mdx.ac.uk", "name": "Raj Kapoor", "visibility_level": 1},
+        {"id": "user1", "email": "ak1234@live.mdx.ac.uk", "student_id": "M01081164", "name": "Alex Kumar", "visibility_level": 2},
+        {"id": "user2", "email": "sj5678@live.mdx.ac.uk", "student_id": "M01082345", "name": "Sarah Johnson", "visibility_level": 3},
+        {"id": "user3", "email": "mp9012@live.mdx.ac.uk", "student_id": "M01083456", "name": "Mike Patel", "visibility_level": 2},
+        {"id": "user4", "email": "jd3456@live.mdx.ac.uk", "student_id": "M01084567", "name": "Jane Doe", "visibility_level": 3},
+        {"id": "user5", "email": "rk7890@live.mdx.ac.uk", "student_id": "M01085678", "name": "Raj Kapoor", "visibility_level": 1},
     ]
     print(f"  👤 Adding {len(users)} demo users...")
     for u in users:
@@ -48,37 +48,41 @@ def seed():
         if not existing:
             db.add(User(**u, password_hash=pwd_context.hash("demo123")))
     
-    # Demo classes (Monday schedule - weekday 0)
+    # Get current day for demo (classes available every day for hackathon)
+    from datetime import datetime
+    today = datetime.now().weekday()
+    
+    # Demo classes matching frontend DEMO_TIMETABLE
     classes = [
         {
-            "id": "c1", "code": "CST4080", "name": "Software Engineering", 
-            "room": "CG76", "building_id": "college", 
-            "day_of_week": 0, "start_time": "09:00", "end_time": "11:00", 
-            "total_students": 24
-        },
-        {
-            "id": "c2", "code": "CST3130", "name": "Data Structures", 
-            "room": "GF12", "building_id": "grove", 
-            "day_of_week": 0, "start_time": "11:30", "end_time": "13:30", 
-            "total_students": 30
-        },
-        {
-            "id": "c3", "code": "CST2550", "name": "Web Development", 
-            "room": "H205", "building_id": "hatchcroft", 
-            "day_of_week": 0, "start_time": "14:00", "end_time": "16:00", 
+            "id": "c1", "code": "CST3170", "name": "Advanced Algorithms", 
+            "room": "R110", "building_id": "ritterman", 
+            "day_of_week": today, "start_time": "10:00", "end_time": "11:00", 
             "total_students": 28
         },
         {
-            "id": "c4", "code": "CST1500", "name": "Intro to Programming", 
-            "room": "RG01", "building_id": "ritterman", 
-            "day_of_week": 1, "start_time": "10:00", "end_time": "12:00", 
-            "total_students": 40
+            "id": "c2", "code": "CST3340", "name": "Web Technologies", 
+            "room": "H101", "building_id": "hatchcroft", 
+            "day_of_week": today, "start_time": "13:00", "end_time": "14:30", 
+            "total_students": 35
         },
         {
-            "id": "c5", "code": "CST3990", "name": "Final Year Project", 
-            "room": "LB10", "building_id": "library", 
-            "day_of_week": 2, "start_time": "13:00", "end_time": "15:00", 
+            "id": "c3", "code": "CST3180", "name": "Software Engineering", 
+            "room": "R209", "building_id": "ritterman", 
+            "day_of_week": today, "start_time": "15:00", "end_time": "16:00", 
+            "total_students": 22
+        },
+        {
+            "id": "c4", "code": "CST4080", "name": "Final Year Project", 
+            "room": "CG01", "building_id": "college", 
+            "day_of_week": today, "start_time": "09:00", "end_time": "11:00", 
             "total_students": 15
+        },
+        {
+            "id": "c5", "code": "CST2550", "name": "Database Systems", 
+            "room": "H201", "building_id": "hatchcroft", 
+            "day_of_week": today, "start_time": "11:30", "end_time": "13:00", 
+            "total_students": 40
         },
     ]
     print(f"  📚 Adding {len(classes)} classes...")
@@ -89,18 +93,18 @@ def seed():
     
     db.commit()
     
-    # Enrollments - enroll users in classes
+    # Enrollments - enroll users in classes (all users in all classes for demo)
     enrollments = [
-        # User 1 (Alex) - enrolled in first 3 classes
-        ("user1", "c1"), ("user1", "c2"), ("user1", "c3"),
+        # User 1 (Alex) - enrolled in ALL classes for demo
+        ("user1", "c1"), ("user1", "c2"), ("user1", "c3"), ("user1", "c4"), ("user1", "c5"),
         # User 2 (Sarah) - enrolled in all classes
         ("user2", "c1"), ("user2", "c2"), ("user2", "c3"), ("user2", "c4"), ("user2", "c5"),
-        # User 3 (Mike) - enrolled in first 2 classes
-        ("user3", "c1"), ("user3", "c2"),
-        # User 4 (Jane) - enrolled in last 3 classes
-        ("user4", "c3"), ("user4", "c4"), ("user4", "c5"),
-        # User 5 (Raj) - enrolled in first class only
-        ("user5", "c1"),
+        # User 3 (Mike) - enrolled in all classes
+        ("user3", "c1"), ("user3", "c2"), ("user3", "c3"), ("user3", "c4"), ("user3", "c5"),
+        # User 4 (Jane) - enrolled in all classes
+        ("user4", "c1"), ("user4", "c2"), ("user4", "c3"), ("user4", "c4"), ("user4", "c5"),
+        # User 5 (Raj) - enrolled in all classes
+        ("user5", "c1"), ("user5", "c2"), ("user5", "c3"), ("user5", "c4"), ("user5", "c5"),
     ]
     print(f"  📝 Adding {len(enrollments)} enrollments...")
     for user_id, class_id in enrollments:

@@ -30,6 +30,7 @@ class StudentInClass(BaseModel):
     id: str
     name: str
     initials: str
+    student_id: Optional[str] = None
     checked_in_at: Optional[str] = None
 
 

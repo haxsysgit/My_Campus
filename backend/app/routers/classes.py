@@ -127,6 +127,7 @@ def get_class_detail(
             id=user.id,
             name=user.name,
             initials=get_initials(user.name),
+            student_id=user.student_id,
             checked_in_at=checkin.checked_in_at.isoformat() if checkin.checked_in_at else None
         )
         for checkin, user in checkins

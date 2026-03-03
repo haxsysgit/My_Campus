@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useApp } from "@/context/AppContext";
-import { User, Mail, Shield, Eye, Bell, LogOut, ChevronRight } from "lucide-react";
+import { User, Mail, Shield, Eye, Bell, LogOut, ChevronRight, IdCard } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 
@@ -70,6 +70,12 @@ export default function Profile() {
               <Mail className="w-3.5 h-3.5" />
               {currentUser.email}
             </p>
+            {currentUser.studentId && (
+              <p className="text-sm text-primary font-medium flex items-center justify-center gap-1 mt-1">
+                <IdCard className="w-3.5 h-3.5" />
+                {currentUser.studentId}
+              </p>
+            )}
           </div>
         </div>
 

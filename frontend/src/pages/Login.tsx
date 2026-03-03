@@ -23,7 +23,10 @@ export default function Login() {
 
     try {
       const { user, token } = await api.login(email, password);
-      setCurrentUser(user);
+      setCurrentUser({
+        ...user,
+        studentId: user.student_id, // Map backend snake_case to frontend camelCase
+      });
       toast({
         title: "Welcome back!",
         description: `Logged in as ${user.name}`,
